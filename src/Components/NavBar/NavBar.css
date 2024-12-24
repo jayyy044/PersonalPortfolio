@@ -1,0 +1,10 @@
+.NavBarContainer{
+    height: 70px;
+    margin-inline: 20px;
+    margin-top: 15px;
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    border: solid 1.5px rgba(100, 100, 100, 0.3);
+    box-shadow: 0 4px 8px rgba(100, 100, 100, 0.3)
+}
