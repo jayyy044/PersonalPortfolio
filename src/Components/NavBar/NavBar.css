@@ -1,10 +1,39 @@
 .NavBarContainer{
-    height: 70px;
+    height: 90px;
     margin-inline: 20px;
     margin-top: 15px;
     color: white;
     border-radius: 15px;
-    padding: 20px;
+    display: flex;
+    align-items: center;
+    padding-inline: 15px;
     border: solid 1.5px rgba(100, 100, 100, 0.3);
-    box-shadow: 0 4px 8px rgba(100, 100, 100, 0.3)
+    box-shadow: 0 4px 8px rgba(100, 100, 100, 0.3);
+
 }
+
+.LogoImg{
+    height: 70px;
+    width: 80px;
+}
+
+.NavLinks{
+    margin-left: auto;
+}
+
+.NavLinks a{
+    text-decoration: none;
+    color: rgb(183, 183, 183);
+    font-size: 2.2rem;
+    margin-inline: 65px;
+    transition: color 0.3s ease;
+}
+
+.NavLinks a:hover{
+    color: #197998;
+}
+
+.NavLinks a:active{
+    color: #be8897;
+}
+
