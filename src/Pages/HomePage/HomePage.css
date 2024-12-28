@@ -1,0 +1,42 @@
+.HomePageContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100dvh - 110px); 
+
+    
+
+}
+.IntroContainer{
+    text-align: center;
+    
+
+}
+.IntroContainer span{
+    display: flex;
+    justify-content: center;
+}
+.IntroContainer h1{
+    font-size: 3.5rem;
+    color: var(--PrimaryColor);
+    margin-top: 25px;
+
+}
+
+.IntroContainer h3{
+    font-size: 2.5rem;
+    color: var(--PrimaryColor);
+    margin-top: 20px;
+}
+
+.CanvasContainer {
+    height: 70%;  
+    width: 99%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 0.5px solid red; */
+
+}
+

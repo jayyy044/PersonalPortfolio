@@ -2,14 +2,13 @@
     height: 90px;
     margin-inline: 20px;
     margin-top: 15px;
-    color: white;
-    border-radius: 15px;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     padding-inline: 15px;
-    border: solid 1.5px rgba(100, 100, 100, 0.3);
-    box-shadow: 0 4px 8px rgba(100, 100, 100, 0.3);
-
+    /* background-color: #151516; */
+    /* border: solid 1.5px rgba(100, 100, 100, 0.3); 
+    box-shadow: 0 4px 8px rgba(100, 100, 100, 0.3); */
 }
 
 .LogoImg{
