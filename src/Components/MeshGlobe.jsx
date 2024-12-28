@@ -4,25 +4,33 @@ import { useFrame } from '@react-three/fiber'
 import { useNavigate } from 'react-router-dom'
 import GlobePoints from './GlobePoints.jsx'
 import Tooltip from './Tooltip.jsx'
-import { useControls, Leva } from 'leva'
 
 
 
-const MeshGlobe = (props) => {
+const MeshGlobe = ({scroll, ...props}) => {
   const group = useRef()
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const { actions } = useAnimations(animations, group)
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
+    // const [scrollY, setScrollY] = useState(0);
+    // const handleScroll = () => {
+    //   setScrollY(window.scrollY);
+    // };
+  
+    // useEffect(() => {
+    //   window.addEventListener('scroll', handleScroll);
+    //   return () => {
+    //     window.removeEventListener('scroll', handleScroll);
+    //   };
+    // }, []);
+  
+    // useFrame(() => {
+    //   if (group.current) {
+    //     group.current.position.y = -scroll * 0.1; // Adjust the multiplier for speed
+    //   }
+    // });
 
-  const controls = useControls({
-    positionX: { value: 0, min: -20, max: 20},
-    positionY: { value: 0, min: -20, max: 30 },
-    positionZ: { value: 0, min: -20, max: 20 },
-    rotationX: { value: 0, min: -20, max: 20 },
-    rotationY: { value: 0, min: -20, max: 20 },
-    rotationZ: { value: 0, min: -20, max: 20 },
-  })
 
 
   materials['neoner_light.013'].color.set('#ffffff')
@@ -50,7 +58,7 @@ const MeshGlobe = (props) => {
             rotation={[-Math.PI, 0, 0]}
             scale={0.01}>
             <group name="Object_2">
-              <group name="RootNode">
+              <group name="RootNode">d
                 <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
                     name="Stand_neoner_wall004_0"

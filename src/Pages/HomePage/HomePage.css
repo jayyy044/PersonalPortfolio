@@ -4,6 +4,8 @@
     align-items: center;
     justify-content: center;
     height: calc(100dvh - 110px); 
+    background-image: radial-gradient(circle 800px at 50% 60%, #7d7d7d, rgb(9, 9, 9),rgb(7, 7, 7),rgb(5, 5, 5));
+
 
     
 
@@ -19,24 +21,33 @@
 }
 .IntroContainer h1{
     font-size: 3.5rem;
-    color: var(--PrimaryColor);
+    color: rgb(220, 220, 220);
     margin-top: 25px;
 
 }
 
 .IntroContainer h3{
     font-size: 2.5rem;
-    color: var(--PrimaryColor);
+    color:rgb(220, 220, 220);
     margin-top: 20px;
 }
 
 .CanvasContainer {
+    
     height: 70%;  
     width: 99%;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 0.5px solid red; */
-
 }
+
+/* .CanvasContainer {
+    position: relative;
+    width: 100%;
+    height: 100vh; 
+    overflow: visible; 
+    pointer-events: none;
+    z-index: 0; 
+} */
+
 

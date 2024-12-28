@@ -5,10 +5,9 @@
 }
 
 body{
-  /* background-color: rgb(9, 9, 9); */
+  background-color: rgb(5, 5, 5);
   margin: 0;
   padding: 0;
-  background-image: radial-gradient(circle 900px at 50% 60%, #7d7d7d, #090909,#050505,#080808);
 
 
 }
