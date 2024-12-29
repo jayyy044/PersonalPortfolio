@@ -1,3 +1,9 @@
+.PageContainer{
+    position: relative;
+}
+
+
+
 .HomePageContainer{
     display: flex;
     flex-direction: column;

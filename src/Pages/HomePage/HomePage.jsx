@@ -21,7 +21,7 @@ const HomePage = () => {
 
 
   return (
-    <main>
+    <main className='PageContainer'>
       <div className='HomePageContainer'>
           <div className="IntroContainer">
               <span>
@@ -90,9 +90,8 @@ const HomePage = () => {
             </Canvas>
           </div>       
       </div>
-
-      <main/> 
-)
+    </main> 
+  )
 }
 
 export default HomePage
