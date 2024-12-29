@@ -8,7 +8,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: calc(100dvh - 110px); 
     background-image: radial-gradient(circle 800px at 50% 60%, #7d7d7d, rgb(9, 9, 9),rgb(7, 7, 7),rgb(5, 5, 5));
 
@@ -18,6 +17,8 @@
 }
 .IntroContainer{
     text-align: center;
+    /* border: 0.5px solid red; */
+    margin-top: 50px;
     
 
 }
@@ -39,21 +40,17 @@
 }
 
 .CanvasContainer {
-    
     height: 70%;  
     width: 99%;
+    /* margin-top: 170px; */
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    /* border: 0.5px solid red; */
+    bottom: 0;
 }
 
-/* .CanvasContainer {
-    position: relative;
-    width: 100%;
-    height: 100vh; 
-    overflow: visible; 
-    pointer-events: none;
-    z-index: 0; 
-} */
+
 
 
