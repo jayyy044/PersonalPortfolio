@@ -12,17 +12,25 @@ import gsap from "gsap";
 
 
 const MeshGlobe = ({componentVisible, ...props}) => {
-  const group = useRef()
+
+  //Creating Refs to preform animations
+  const ModelRef = useRef()
+  const BaseRef = useRef()
+  const OuterSphere = useRef()
+  const InnerSphere = useRef()
+
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
-  const { actions } = useAnimations(animations, group)
+  const { actions } = useAnimations(animations, ModelRef)
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
-
-
+  
+  //Changing Material Colors 
   materials['neoner_light.013'].color.set('#ffffff')
   materials['neoner_light.013'].emissive.set('#ffffff')
   materials['neoner_light.010'].color.set('#197998')
   materials['neoner_light.010'].emissive.set('#197998')
+
+
   
   useEffect(() => {
     setTimeout(() => {
@@ -32,46 +40,12 @@ const MeshGlobe = ({componentVisible, ...props}) => {
 
   useFrame(() => {
     if (rotationEnabled) {
-      group.current.rotation.y += 0.005
+      ModelRef.current.rotation.y += 0.005
     }
   })
-  const meshRef = useRef();
-  const OuterSphere = useRef()
-  const InnerSphere = useRef()
 
-  useEffect(() => {
-    if (meshRef.current && materials) {
-      ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
-        materials[mat].transparent = true;
-        materials[mat].opacity = 1; // Initial opacity set to 1
-      });
-    }
-  }, [materials]);
 
-  useEffect(() => {
-    if (group.current) {
-      // Animate the Y position when `componentVisible` changes
-      gsap.to(group.current.position, {
-        y: componentVisible ? -16 : -19, // Example: Move up to -10 when visible, else reset to -19
-        duration: 1, // Animation duration
-        ease: 'power2.inOut', // Easing
-      });
-    }
-  }, [componentVisible]);
-
-  // Animate opacity based on componentVisible for multiple materials
-  useEffect(() => {
-    if (meshRef.current && materials) {
-      ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
-        gsap.to(materials[mat], {
-          opacity: componentVisible ? 1 : 0,
-          duration: 1,
-          ease: 'power2.inOut',
-        });
-      });
-    }
-  }, [componentVisible, materials]);
-
+  
   useEffect(() => {
     if (componentVisible) {
       gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
@@ -96,7 +70,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
 
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={ModelRef} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model" rotation={[1.571, 0, 0]}>
           <group
@@ -105,9 +79,9 @@ const MeshGlobe = ({componentVisible, ...props}) => {
             scale={0.01}>
             <group name="Object_2">
               <group name="RootNode">
-                <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
+                {/* <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
-                    ref={meshRef}
+                    ref={BaseRef}
                     name="Stand_neoner_wall004_0"
                     castShadow
                     receiveShadow
@@ -115,7 +89,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
                     material={materials['neoner_wall.004']}
                   />
                   <mesh
-                    ref={meshRef}
+                    ref={BaseRef}
                     name="Stand_Material001_0"
                     castShadow
                     receiveShadow
@@ -123,14 +97,14 @@ const MeshGlobe = ({componentVisible, ...props}) => {
                     material={materials['Material.001']}
                   />
                   <mesh
-                    ref={meshRef}
+                    ref={BaseRef}
                     name="Stand_neoner_light010_0"
                     castShadow
                     receiveShadow
                     geometry={nodes.Stand_neoner_light010_0.geometry}
                     material={materials['neoner_light.010']}
                   />
-                </group>
+                </group> */}
                  <group name="Sphere" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
                     name="Sphere_neoner_light008_0"
@@ -156,8 +130,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
           </group>
         </group>
       </group>
-      {/* {componentVisible && <> */}
-      <GlobePoints
+      {/* <GlobePoints
         position={[0.93, 2, 2]}
         visible = {componentVisible}  
       />
@@ -224,8 +197,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
         tooltipRotation2={[0, 3.14 , 0.38 ]}
         onClick={() => navigate('/contact')} 
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
-      />
-      {/* </>} */}
+      /> */}
 
     </group>
   )
@@ -233,4 +205,37 @@ const MeshGlobe = ({componentVisible, ...props}) => {
 
 useGLTF.preload('/src/assets/Models/MeshGlobe.glb') // Corrected path
 export default MeshGlobe
+
+// useEffect(() => {
+//   if (BaseRef.current && materials) {
+//     ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
+//       materials[mat].transparent = true;
+//       materials[mat].opacity = 1; // Initial opacity set to 1
+//     });
+//   }
+// }, [materials]);
+
+// useEffect(() => {
+//   if (ModelRef.current) {
+//     // Animate the Y position when `componentVisible` changes
+//     gsap.to(ModelRef.current.position, {
+//       y: componentVisible ? -16 : -19, // Example: Move up to -10 when visible, else reset to -19
+//       duration: 1, // Animation duration
+//       ease: 'power2.inOut', // Easing
+//     });
+//   }
+// }, [componentVisible]);
+
+// // Animate opacity based on componentVisible for multiple materials
+// useEffect(() => {
+//   if (BaseRef.current && materials) {
+//     ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
+//       gsap.to(materials[mat], {
+//         opacity: componentVisible ? 1 : 0,
+//         duration: 1,
+//         ease: 'power2.inOut',
+//       });
+//     });
+//   }
+// }, [componentVisible, materials]);
 

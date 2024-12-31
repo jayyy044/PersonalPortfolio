@@ -51,25 +51,25 @@ const Tooltip = ({
     const textRef = useRef()
     const text2Ref = useRef()
 
-    useEffect(() => {
-        if (textRef.current) {
-          gsap.to(textRef.current.material, {
-            opacity: visible ? 1 : 0,
-            duration: 0.1,
-            ease: 'power2.inOut',
-          });
-        }
-      }, [visible]);
+    // useEffect(() => {
+    //     if (textRef.current) {
+    //       gsap.to(textRef.current.material, {
+    //         opacity: visible ? 1 : 0,
+    //         duration: 0.1,
+    //         ease: 'power2.inOut',
+    //       });
+    //     }
+    //   }, [visible]);
 
-    useEffect(() => {
-        if (text2Ref.current) {
-          gsap.to(text2Ref.current.material, {
-            opacity: visible ? 1 : 0,
-            duration: 0.1,
-            ease: 'power2.inOut',
-          });
-        }
-      }, [visible]);
+    // useEffect(() => {
+    //     if (text2Ref.current) {
+    //       gsap.to(text2Ref.current.material, {
+    //         opacity: visible ? 1 : 0,
+    //         duration: 0.1,
+    //         ease: 'power2.inOut',
+    //       });
+    //     }
+    //   }, [visible]);
 
     return (
         <group

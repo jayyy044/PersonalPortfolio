@@ -11,15 +11,15 @@ const TooltipCard = ({ visible, scale, position, rotation, color, ...props }) =>
   customMaterial.transparent = true;
   customMaterial.opacity = 1
   const meshRef = useRef()
-  useEffect(() => {
-    if (meshRef.current) {
-      gsap.to(meshRef.current.material, {
-        opacity: visible ? 1 : 0,
-        duration: 1,
-        ease: 'power2.inOut',
-      });
-    }
-  }, [visible]);
+  // useEffect(() => {
+  //   if (meshRef.current) {
+  //     gsap.to(meshRef.current.material, {
+  //       opacity: visible ? 1 : 0,
+  //       duration: 1,
+  //       ease: 'power2.inOut',
+  //     });
+  //   }
+  // }, [visible]);
   return (
     <group {...props} dispose={null} position={position} rotation={rotation}>
       <mesh

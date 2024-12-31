@@ -5,15 +5,15 @@ import gsap from "gsap";
 
 const GlobePoints = ({ visible, position}) => {
   const meshRef = useRef()
-  useEffect(() => {
-    if (meshRef.current) {
-      gsap.to(meshRef.current.material, {
-        opacity: visible ? 1 : 0,
-        duration: 1,
-        ease: 'power2.inOut',
-      });
-    }
-  }, [visible]);
+  // useEffect(() => {
+  //   if (meshRef.current) {
+  //     gsap.to(meshRef.current.material, {
+  //       opacity: visible ? 1 : 0,
+  //       duration: 1,
+  //       ease: 'power2.inOut',
+  //     });
+  //   }
+  // }, [visible]);
 
   return (
     <>
