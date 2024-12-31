@@ -3,21 +3,36 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
-import React, {Suspense, useState, useEffect} from 'react'
+import React, {Suspense, useState} from 'react'
+import { useInView } from 'react-intersection-observer';
+import ProfilePic from '../../assets/Profile.png'
+import { motion, useScroll, useTransform } from "motion/react"
+import { useMotionValueEvent } from 'motion/react'
 
 
 const HomePage = () => {
-  // const [scrollY, setScrollY] = useState(0);
-  // const handleScroll = () => {
-  //   setScrollY(window.scrollY);
-  // };
+  const { scrollYProgress } = useScroll();
+  const [controls , setControls] = useState(true) 
 
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
+  const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
+  const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
+  const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
+
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    console.log("Normalized scroll progress:", latest);
+    // Execute your logic based on the scroll progress (0 to 1)
+    if (latest > 0.2) {
+      console.log("Scrolled more than 50%");
+      setControls(false)
+      // Your custom logic for 50% scroll progress or beyond
+    }
+    else{
+      setControls(true)
+    }
+  });
+  
 
 
   return (
@@ -36,7 +51,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <div className="CanvasContainer" >
+          <motion.div className="CanvasContainer" style={{ y, x, opacity, height }} >
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -79,16 +94,66 @@ const HomePage = () => {
                   distance={100}
                 />
                 <PerspectiveCamera makeDefault position={[0, 0, 50]} />
-                <MeshGlobe scale={4.5} 
-                position={[0, -18, 0]} 
+                <MeshGlobe scale={4} 
+                position={[0, -16, 0]} 
                 rotation={[0, -Math.PI/2, 0]} 
-                scroll={scrollY}
+                componentVisible={controls}
                 // Pass the rotation state to MeshGlobe
                 />
-                <OrbitControls enableZoom={true} enableRotate={true} enableDamping={true} dampingFactor={0.05}/>
+                <OrbitControls   
+                  enableZoom={false} 
+                  enableRotate={controls} 
+                  enableDamping={true} 
+                  dampingFactor={0.05}
+                /> 
               </Suspense>
             </Canvas>
-          </div>       
+          </motion.div>       
+      </div>
+      <div className='AboutMeContainer' >
+        <motion.section 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+          }}
+          variants={{
+            hidden: { opacity: 0, translateX: -100 },
+            visible: { opacity: 1, translateX: 0 },
+          }}
+          className='AboutMeSection'>
+          <h1>About Me</h1>
+          <div className="AboutMeText">
+            <p>Hello, I'm Maanas <span className='wave'>👋</span></p>
+            <p>
+              
+              I am Computer-Nano Engineering 
+              Student at the University of Alberta. 
+              My journey in this field has been fueled 
+              by a passion for bringing software to life, 
+              whether through crafting innovative projects 
+              on Arduino, developing dynamic and responsive 
+              websites, or diving into the world of data 
+              analysis and visualization.
+            </p>
+          </div>
+        </motion.section>
+        <motion.aside
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+          }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1 },
+          }}>
+          <img src={ProfilePic}/>
+        </motion.aside>
       </div>
     </main> 
   )
