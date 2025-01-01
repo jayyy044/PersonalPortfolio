@@ -5,19 +5,19 @@ import { useNavigate } from 'react-router-dom'
 import GlobePoints from './GlobePoints.jsx'
 import Tooltip from './Tooltip.jsx'
 import gsap from "gsap";
+import { motion, useScroll, useTransform } from "motion/react"
+import { useMotionValueEvent } from 'motion/react'
 
-
-
-
-
-
-const MeshGlobe = ({componentVisible, ...props}) => {
+const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
 
   //Creating Refs to preform animations
   const ModelRef = useRef()
   const BaseRef = useRef()
   const OuterSphere = useRef()
   const InnerSphere = useRef()
+
+  const { scrollYProgress } = useScroll();
+  
 
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const { actions } = useAnimations(animations, ModelRef)
@@ -30,8 +30,41 @@ const MeshGlobe = ({componentVisible, ...props}) => {
   materials['neoner_light.010'].color.set('#197998')
   materials['neoner_light.010'].emissive.set('#197998')
 
+  useEffect(() => {
+    // Create GSAP ScrollTrigger animation
+    gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
+      x: () => 1 + window.scrollY * 0.001, // Adjust scaling in x direction
+      y: () => 1 + window.scrollY * 0.001, // Adjust scaling in y direction
+      z: () => 1 + window.scrollY * 0.001, // Adjust scaling in z direction
+      duration: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: wrapperRef.current, // Use the wrapper element for ScrollTrigger
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true, // Sync with scroll
+      },
+    });
 
-  
+    // Cleanup function for ScrollTrigger when component unmounts
+    return () => {
+      gsap.killTweensOf([OuterSphere.current.scale, InnerSphere.current.scale]);
+    };
+  }, []);
+
+  // useEffect(() => {
+    // useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    //   const scale = 1 + latest * 0.2;
+    //   console.log(scale)
+    
+    //   // Immediately set the scale based on scroll progress
+    //   gsap.set([OuterSphere.current.scale, InnerSphere.current.scale], {
+    //     x: scale,
+    //     y: scale,
+    //     z: scale,
+    //   });
+    // });
+  // }, [scrollYProgress]);
   useEffect(() => {
     setTimeout(() => {
       setRotationEnabled(true)
@@ -46,27 +79,27 @@ const MeshGlobe = ({componentVisible, ...props}) => {
 
 
   
-  useEffect(() => {
-    if (componentVisible) {
-      gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 1,
-        ease: 'power1.inOut',
-      });
+  // useEffect(() => {
+  //   if (componentVisible) {
+  //     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
+  //       x: 1,
+  //       y: 1,
+  //       z: 1,
+  //       duration: 1,
+  //       ease: 'power1.inOut',
+  //     });
 
-    } 
-    else {
-      gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-        x: 1.2, // Target scale factor for the x-axis
-        y: 1.2, // Target scale factor for the y-axis
-        z: 1.2, // Target scale factor for the z-axis
-        duration: 1, // Duration of the animation in seconds
-        ease: 'power1.inOut', // Easing function for the animation
-      });
-    }
-  }, [componentVisible]);
+  //   } 
+  //   else {
+  //     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
+  //       x: 1.2, // Target scale factor for the x-axis
+  //       y: 1.2, // Target scale factor for the y-axis
+  //       z: 1.2, // Target scale factor for the z-axis
+  //       duration: 1, // Duration of the animation in seconds
+  //       ease: 'power1.inOut', // Easing function for the animation
+  //     });
+  //   }
+  // }, [componentVisible]);
 
 
   return (

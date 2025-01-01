@@ -3,25 +3,32 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
-import React, {Suspense, useState} from 'react'
+import React, {Suspense, useRef, useState, useEffect} from 'react'
 import { useInView } from 'react-intersection-observer';
 import ProfilePic from '../../assets/Profile.png'
 import { motion, useScroll, useTransform } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register the ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 
 const HomePage = () => {
   const { scrollYProgress } = useScroll();
   const [controls , setControls] = useState(true) 
 
-  const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
+  const divRef = useRef()
+
+  // const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
   const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
   const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
 
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log("Normalized scroll progress:", latest);
+    console.log("Normalized scroll progress hdffhdh:", latest);
     // Execute your logic based on the scroll progress (0 to 1)
     if (latest > 0.2) {
       console.log("Scrolled more than 50%");
@@ -32,6 +39,27 @@ const HomePage = () => {
       setControls(true)
     }
   });
+
+  useEffect(() => {
+    const element = divRef.current;
+
+    gsap.to(element, {
+      y: 950,
+      x:-900,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: element,
+        start: 'top center',
+        end: 'bottom top',
+        scrub: true,
+      },
+    });
+
+    // Cleanup function to remove ScrollTrigger instance
+    return () => {
+      ScrollTrigger.getById(element)?.kill();
+    };
+  }, []);
   
 
 
@@ -51,7 +79,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <motion.div className="CanvasContainer" style={{ y, x, opacity, height }} >
+          <motion.div className="CanvasContainer" ref={divRef} style={{  height }} >
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -95,9 +123,10 @@ const HomePage = () => {
                 />
                 <PerspectiveCamera makeDefault position={[0, 0, 50]} />
                 <MeshGlobe scale={4} 
-                position={[0, -16, 0]} 
+                position={[10.3, -10, 0]} 
                 rotation={[0, -Math.PI/2, 0]} 
                 componentVisible={controls}
+                wrapperRef={divRef}
                 // Pass the rotation state to MeshGlobe
                 />
                 <OrbitControls   
