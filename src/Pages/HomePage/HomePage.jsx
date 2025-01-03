@@ -19,12 +19,13 @@ const HomePage = () => {
   const { scrollYProgress } = useScroll();
   const [controls , setControls] = useState(true) 
 
-  const divRef = useRef()
+  const ModelRef = useRef()
+  const IntroDivRef = useRef()
 
   // const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
   const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
-  const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
+  // const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
 
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -41,23 +42,31 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    const element = divRef.current;
-
-    gsap.to(element, {
-      y: 950,
-      x:-900,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: element,
-        start: 'top center',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+    
+    gsap.fromTo(
+      //Model current state
+      ModelRef.current,
+      //Initial position of the element we are moving
+      { y: 0, x: 0 },
+      {
+        y: 950,
+        x: -900,
+        ease: "none",
+        
+        scrollTrigger: {
+          //Triggering animation based on viewport position with reference to intro div
+          trigger: IntroDivRef.current,
+          start: "top+=100 top",
+          end: "bottom+=290 top",
+          scrub: true,
+          markers: true
+        },
+      }
+    );
 
     // Cleanup function to remove ScrollTrigger instance
     return () => {
-      ScrollTrigger.getById(element)?.kill();
+      ScrollTrigger.getById(ModelRef.current)?.kill();
     };
   }, []);
   
@@ -66,7 +75,7 @@ const HomePage = () => {
   return (
     <main className='PageContainer'>
       <div className='HomePageContainer'>
-          <div className="IntroContainer">
+          <div className="IntroContainer" ref={IntroDivRef}>
               <span>
                 <h1>Hi, I'm</h1>
                 <h1 style={{marginLeft: '15px',color: 'var(--AccentColor)'}}>
@@ -79,7 +88,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <motion.div className="CanvasContainer" ref={divRef} style={{  height }} >
+          <motion.div className="CanvasContainer" ref={ModelRef}  >
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -123,10 +132,10 @@ const HomePage = () => {
                 />
                 <PerspectiveCamera makeDefault position={[0, 0, 50]} />
                 <MeshGlobe scale={4} 
-                position={[10.3, -10, 0]} 
+                position={[0, -15.5, 0]} 
                 rotation={[0, -Math.PI/2, 0]} 
                 componentVisible={controls}
-                wrapperRef={divRef}
+                wrapperRef={ModelRef}
                 // Pass the rotation state to MeshGlobe
                 />
                 <OrbitControls   

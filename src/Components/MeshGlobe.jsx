@@ -112,7 +112,7 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
             scale={0.01}>
             <group name="Object_2">
               <group name="RootNode">
-                {/* <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
+                <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
                     ref={BaseRef}
                     name="Stand_neoner_wall004_0"
@@ -137,7 +137,7 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
                     geometry={nodes.Stand_neoner_light010_0.geometry}
                     material={materials['neoner_light.010']}
                   />
-                </group> */}
+                </group>
                  <group name="Sphere" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
                     name="Sphere_neoner_light008_0"
