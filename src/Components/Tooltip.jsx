@@ -2,9 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import TooltipCard from './TooltipCard';
 import { Text3D } from '@react-three/drei';
 import gsap from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
 
 const Tooltip = ({
+    ScrollTrigger,  
     cardScale,
     cardPosition,
     cardRotation,
@@ -13,7 +16,6 @@ const Tooltip = ({
     tooltipRotation1,
     tooltipPosition2,
     tooltipRotation2,
-    visible,
     onClick, 
     onHoverChange // Hover change handler
     }) => {
@@ -50,26 +52,37 @@ const Tooltip = ({
 
     const textRef = useRef()
     const text2Ref = useRef()
-
-    // useEffect(() => {
-    //     if (textRef.current) {
-    //       gsap.to(textRef.current.material, {
-    //         opacity: visible ? 1 : 0,
-    //         duration: 0.1,
-    //         ease: 'power2.inOut',
-    //       });
-    //     }
-    //   }, [visible]);
-
-    // useEffect(() => {
-    //     if (text2Ref.current) {
-    //       gsap.to(text2Ref.current.material, {
-    //         opacity: visible ? 1 : 0,
-    //         duration: 0.1,
-    //         ease: 'power2.inOut',
-    //       });
-    //     }
-    //   }, [visible]);
+    
+    useEffect(() => {
+        gsap.to([textRef.current.scale,textRef.current.material], {
+            x: 0,
+            y: 0,
+            z: 0,
+            opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: ScrollTrigger.current, 
+                start: 'top+=150 top',  
+                end: 'bottom+=50 top',  
+                scrub: true,
+                markers: true
+              },
+        });
+        gsap.to([text2Ref.current.scale,text2Ref.current.material], {
+            x: 0,
+            y: 0,
+            z: 0,
+            opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: ScrollTrigger.current, 
+                start: 'top+=150 top',  
+                end: 'bottom+=50 top',  
+                scrub: true,
+              },
+        });
+    
+      }, []);
 
     return (
         <group
@@ -81,7 +94,7 @@ const Tooltip = ({
                 scale={cardScale}
                 position={cardPosition}
                 rotation={cardRotation}
-                visible={visible}
+                ScrollTrigger={ScrollTrigger}
                 color={isHovered ? 'black' : 'white'} // Change color on hover
             />
             <Text3D
@@ -105,6 +118,7 @@ const Tooltip = ({
                     emissiveIntensity={1}
                     transparent={true}
                     opacity={1}
+
                      />
             </Text3D>
             <Text3D

@@ -22,12 +22,6 @@ const HomePage = () => {
   const ModelContainerRef = useRef()
   const IntroDivRef = useRef()
 
-  // const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
-  const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
-  // const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
-
-
   // useMotionValueEvent(scrollYProgress, "change", (latest) => {
   //   console.log("Normalized scroll progress hdffhdh:", latest);
   //   // Execute your logic based on the scroll progress (0 to 1)
@@ -135,7 +129,6 @@ const HomePage = () => {
                 position={[0, -15.5, 0]} 
                 // position={[0,-29,0]}
                 rotation={[0, -Math.PI/2, 0]} 
-                componentVisible={controls}
                 ScrollTrigger = {IntroDivRef}
                 // Pass the rotation state to MeshGlobe
                 />

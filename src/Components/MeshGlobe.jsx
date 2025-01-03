@@ -10,9 +10,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
+const MeshGlobe = ({ScrollTrigger,...props}) => {
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
-  const { actions } = useAnimations(animations, ModelRef)
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
 
@@ -21,6 +20,8 @@ const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
   const BaseRef = useRef()
   const OuterSphere = useRef()
   const InnerSphere = useRef()
+
+  const { actions } = useAnimations(animations, ModelRef)
 
   //Changing Material Colors 
   materials['neoner_light.013'].color.set('#ffffff')
@@ -175,23 +176,26 @@ const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
       </group>
        <GlobePoints
         position={[0.93, 2, 2]}
-        visible = {componentVisible}  
+        ScrollTrigger={ScrollTrigger}
       />
       <GlobePoints
         position={[2.5, 5.8, 2.3]}
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
+
       />
       <GlobePoints
         position={[-3.4, 5.8, 0.15]}
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
+
       />
       <GlobePoints
         position={[1.84, 5, -3]}
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
+
       />
-      {/*<Tooltip
-        visible = {componentVisible}
-        cardScale={[0.009, 0.011, 0.001]}
+      <Tooltip
+        ScrollTrigger={ScrollTrigger}
+          cardScale={[0.009, 0.011, 0.001]}
         cardPosition={[1.2, 1.5, 2.6]}  
         cardRotation={[0, 2, 2.2]}
         tooltipPosition1={[1.3, 1.12, 2.85]}
@@ -203,7 +207,7 @@ const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />  
       <Tooltip
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
         cardScale={[0.009, 0.015, 0.001]}
         cardPosition={[3.08, 6.27, 2.9]}  
         cardRotation={[-0.4, 2.2, 1.4]}
@@ -216,7 +220,7 @@ const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
         cardScale={[0.009, 0.019, 0.001]}
         cardPosition={[2.31, 5.41, -3.95]}  
         cardRotation={[-18.8, 1.1, -1.23]}
@@ -229,7 +233,7 @@ const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
         cardScale={[0.009, 0.019, 0.001]}
         cardPosition={[-4.5, 6.28, 0.14]}  
         cardRotation={[0, 0, 1.2]}
@@ -240,7 +244,7 @@ const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
         tooltipRotation2={[0, 3.14 , 0.38 ]}
         onClick={() => navigate('/contact')} 
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
-      /> */}
+      />
 
     </group>
   )
@@ -253,16 +257,4 @@ export default MeshGlobe
 
 
 
-// // Animate opacity based on componentVisible for multiple materials
-// useEffect(() => {
-//   if (BaseRef.current && materials) {
-//     ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
-//       gsap.to(materials[mat], {
-//         opacity: componentVisible ? 1 : 0,
-//         duration: 1,
-//         ease: 'power2.inOut',
-//       });
-//     });
-//   }
-// }, [componentVisible, materials]);
 

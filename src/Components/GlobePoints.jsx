@@ -1,19 +1,24 @@
 import React, { useRef, useEffect } from 'react'
 import gsap from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
 
-
-const GlobePoints = ({ visible, position}) => {
+const GlobePoints = ({ ScrollTrigger, position}) => {
   const meshRef = useRef()
-  // useEffect(() => {
-  //   if (meshRef.current) {
-  //     gsap.to(meshRef.current.material, {
-  //       opacity: visible ? 1 : 0,
-  //       duration: 1,
-  //       ease: 'power2.inOut',
-  //     });
-  //   }
-  // }, [visible]);
+  useEffect(() => {
+    gsap.to(meshRef.current.material, {
+      opacity:0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: ScrollTrigger.current, 
+        start: 'top+=25 top',  
+        end: 'bottom+=90 top',  
+        scrub: true,  
+        markers: true
+      },
+    });
+  }, []);
 
   return (
     <>
@@ -22,7 +27,7 @@ const GlobePoints = ({ visible, position}) => {
         ref={meshRef}
       >
         <sphereGeometry args={[0.2, 32, 32]} />
-        <meshStandardMaterial color= 'red' transparent={true} opacity={visible ? 1 : 0} />
+        <meshStandardMaterial color= 'red' transparent={true} opacity={1} />
       </mesh>
     </>
   )

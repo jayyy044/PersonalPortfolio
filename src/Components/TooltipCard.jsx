@@ -1,25 +1,31 @@
 import { useGLTF } from '@react-three/drei'
 import gsap from "gsap";
 import React, { useRef, useEffect } from 'react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 
 
-const TooltipCard = ({ visible, scale, position, rotation, color, ...props }) => {
+const TooltipCard = ({ ScrollTrigger, scale, position, rotation, color, ...props }) => {
   const { nodes, materials } = useGLTF('/src/assets/Models/Tooltip.glb')
   const customMaterial = React.useMemo(() => materials.lambert4.clone(), [materials.lambert4]);
   customMaterial.color.set(color);
   customMaterial.transparent = true;
   customMaterial.opacity = 1
   const meshRef = useRef()
-  // useEffect(() => {
-  //   if (meshRef.current) {
-  //     gsap.to(meshRef.current.material, {
-  //       opacity: visible ? 1 : 0,
-  //       duration: 1,
-  //       ease: 'power2.inOut',
-  //     });
-  //   }
-  // }, [visible]);
+  useEffect(() => {
+    gsap.to(meshRef.current.material, {
+      opacity:0,
+      ease: 'none',
+      scrollTrigger:{
+        trigger: ScrollTrigger.current, 
+        start: 'top+=150 top',  
+        end: 'bottom+=130 top',  
+        scrub: true,
+      }
+    });
+  }, []);
   return (
     <group {...props} dispose={null} position={position} rotation={rotation}>
       <mesh
