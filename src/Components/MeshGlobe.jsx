@@ -39,9 +39,9 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
   useEffect(() => {
     //Scale Animation for Spheres
     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-      x:1.5,
-      y:1.5,
-      z:1.5,
+      x:1.43,
+      y:1.43,
+      z:1.43,
       ease: 'none',
       scrollTrigger: {
         trigger: ScrollTrigger.current, 
@@ -53,7 +53,7 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
 
     //Position Animation for model(Spheres)
     gsap.to(ModelRef.current.position, {
-      y:-29,
+      y:-27,
       ease: 'none',
       scrollTrigger: {
         trigger: ScrollTrigger.current, 
@@ -66,7 +66,7 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
     //Changing Opacity of spheres
     materialKeys.slice(3).forEach(mat => {
       gsap.to(materials[mat], {
-        opacity: 0.095,
+        opacity: 0.09,
         ease: 'none',  
         scrollTrigger: {
           trigger: ScrollTrigger.current, 
@@ -86,7 +86,6 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
           start: 'top+=50 top',  // Start when scroll reaches this position
           end: 'bottom+=200 top',  // End at this position
           scrub: true,  
-          markers: true
         },
       });
     })

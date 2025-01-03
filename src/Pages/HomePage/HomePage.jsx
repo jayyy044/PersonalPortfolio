@@ -4,7 +4,6 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
 import React, {Suspense, useRef, useState, useEffect} from 'react'
-import { useInView } from 'react-intersection-observer';
 import ProfilePic from '../../assets/Profile.png'
 import { motion, useScroll, useTransform } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
@@ -19,21 +18,18 @@ const HomePage = () => {
   const { scrollYProgress } = useScroll();
   const [controls , setControls] = useState(true) 
 
+
   const ModelContainerRef = useRef()
   const IntroDivRef = useRef()
 
-  // useMotionValueEvent(scrollYProgress, "change", (latest) => {
-  //   console.log("Normalized scroll progress hdffhdh:", latest);
-  //   // Execute your logic based on the scroll progress (0 to 1)
-  //   if (latest > 0.2) {
-  //     console.log("Scrolled more than 50%");
-  //     setControls(false)
-  //     // Your custom logic for 50% scroll progress or beyond
-  //   }
-  //   else{
-  //     setControls(true)
-  //   }
-  // });
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest > 0.2) {
+      setControls(false)
+    }
+    else{
+      setControls(true)
+    }
+  });
 
   useEffect(() => {
     gsap.fromTo(
@@ -44,7 +40,7 @@ const HomePage = () => {
       {
         y: 900,
         x: -800,
-        height: '600px',
+        height: '640px',
         ease: "none",
         scrollTrigger: {
           //Triggering animation based on viewport position with reference to intro div
@@ -52,7 +48,6 @@ const HomePage = () => {
           start: "top+=90 top",
           end: "bottom+=260 top",
           scrub: true,
-          markers: true
         },
       }
     );
@@ -81,7 +76,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <motion.div className="CanvasContainer" ref={ModelContainerRef}  >
+          <div className="CanvasContainer" ref={ModelContainerRef}>
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -127,10 +122,8 @@ const HomePage = () => {
                 <MeshGlobe
                 scale={4} 
                 position={[0, -15.5, 0]} 
-                // position={[0,-29,0]}
                 rotation={[0, -Math.PI/2, 0]} 
                 ScrollTrigger = {IntroDivRef}
-                // Pass the rotation state to MeshGlobe
                 />
                 <OrbitControls   
                   enableZoom={false} 
@@ -140,19 +133,19 @@ const HomePage = () => {
                 /> 
               </Suspense>
             </Canvas>
-          </motion.div>       
+          </div>       
       </div>
       <div className='AboutMeContainer' >
         <motion.section 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.27 }}
           transition={{
             duration: 2,
-            ease: "easeInOut",
+            ease: "linear",
           }}
           variants={{
-            hidden: { opacity: 0, translateX: -100 },
+            hidden: { opacity: 0, translateX: 100 },
             visible: { opacity: 1, translateX: 0 },
           }}
           className='AboutMeSection'>
@@ -160,15 +153,7 @@ const HomePage = () => {
           <div className="AboutMeText">
             <p>Hello, I'm Maanas <span className='wave'>👋</span></p>
             <p>
-              
-              I am Computer-Nano Engineering 
-              Student at the University of Alberta. 
-              My journey in this field has been fueled 
-              by a passion for bringing software to life, 
-              whether through crafting innovative projects 
-              on Arduino, developing dynamic and responsive 
-              websites, or diving into the world of data 
-              analysis and visualization.
+            I am a Computer-Nano Engineering student at the University of Alberta, passionate about creating impactful solutions. From developing embedded systems projects and dynamic websites to experimenting with machine learning models and exploring data visualization, I am dedicated to bringing software to life in meaningful ways.
             </p>
           </div>
         </motion.section>
@@ -177,13 +162,14 @@ const HomePage = () => {
           whileInView="visible"
           viewport={{ once: true }}
           transition={{
-            duration: 2,
-            ease: "easeInOut",
+            duration: 3,
+            ease: "linear",
           }}
           variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1 },
-          }}>
+            hidden: { opacity: 0, translateX: 300 },
+            visible: { opacity: 1, translateX: 0 },
+          }}
+          className='ImgAside'>
           <img src={ProfilePic}/>
         </motion.aside>
       </div>

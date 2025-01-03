@@ -10,15 +10,10 @@
     align-items: center;
     height: calc(100dvh - 105.5px); 
     background-image: radial-gradient(circle 800px at 50% 55%, #7d7d7d, rgb(9, 9, 9),rgb(7, 7, 7),rgb(5, 5, 5));
-    
-
 }
 .IntroContainer{
     text-align: center;
-    /* border: 0.5px solid red; */
     margin-top: 5px;
-    
-
 }
 .IntroContainer span{
     display: flex;
@@ -28,7 +23,6 @@
     font-size: 3.5rem;
     color: rgb(220, 220, 220);
     margin-top: 25px;
-
 }
 
 .IntroContainer h3{
@@ -38,7 +32,6 @@
 }
 
 .CanvasContainer {
-    /* height: 550px;   */
     width: 800px;
     display: flex;
     margin-top: 175px;
@@ -46,8 +39,6 @@
     align-items: center;
     position: absolute;
     cursor: pointer;
-    /* bottom: 0; */
-    /* border: 0.5px solid red; */
 }
 
 .AboutMeContainer{
@@ -61,7 +52,7 @@
 
 .AboutMeSection{
     font-size: 2rem;
-    line-height: 3.5rem;
+    line-height: 3rem;
 }
 
 

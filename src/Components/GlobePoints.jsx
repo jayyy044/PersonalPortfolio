@@ -15,7 +15,6 @@ const GlobePoints = ({ ScrollTrigger, position}) => {
         start: 'top+=25 top',  
         end: 'bottom+=90 top',  
         scrub: true,  
-        markers: true
       },
     });
   }, []);

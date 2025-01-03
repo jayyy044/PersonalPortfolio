@@ -65,7 +65,6 @@ const Tooltip = ({
                 start: 'top+=150 top',  
                 end: 'bottom+=50 top',  
                 scrub: true,
-                markers: true
               },
         });
         gsap.to([text2Ref.current.scale,text2Ref.current.material], {
