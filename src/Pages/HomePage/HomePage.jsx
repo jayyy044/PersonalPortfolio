@@ -14,10 +14,10 @@ const HomePage = () => {
   const { scrollYProgress } = useScroll();
   const [controls , setControls] = useState(true) 
 
-  const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
-  const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
-  const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
+  // const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
+  // const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
+  // const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
+  // const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
 
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
