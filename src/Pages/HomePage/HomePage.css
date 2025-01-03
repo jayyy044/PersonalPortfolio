@@ -15,7 +15,7 @@
 }
 .IntroContainer{
     text-align: center;
-    border: 0.5px solid red;
+    /* border: 0.5px solid red; */
     margin-top: 5px;
     
 
@@ -38,7 +38,7 @@
 }
 
 .CanvasContainer {
-    height: 550px;  
+    /* height: 550px;   */
     width: 800px;
     display: flex;
     margin-top: 175px;
@@ -46,7 +46,7 @@
     align-items: center;
     position: absolute;
     /* bottom: 0; */
-    border: 0.5px solid red;
+    /* border: 0.5px solid red; */
 }
 
 .AboutMeContainer{

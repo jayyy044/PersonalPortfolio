@@ -17,7 +17,7 @@ const Tooltip = ({
     onClick, 
     onHoverChange // Hover change handler
     }) => {
-    // Determine the tooltip text based on the first element of the array
+
     let tooltipText = '';
     if (Array.isArray(tooltipData) && tooltipData.length > 0) {
         switch (tooltipData[0]) {

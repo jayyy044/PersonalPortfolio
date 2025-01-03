@@ -5,10 +5,16 @@ import { useNavigate } from 'react-router-dom'
 import GlobePoints from './GlobePoints.jsx'
 import Tooltip from './Tooltip.jsx'
 import gsap from "gsap";
-import { motion, useScroll, useTransform } from "motion/react"
-import { useMotionValueEvent } from 'motion/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
+// Register the ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
+const MeshGlobe = ({ScrollTrigger, componentVisible, ...props}) => {
+  const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
+  const { actions } = useAnimations(animations, ModelRef)
+  const navigate = useNavigate()
+  const [rotationEnabled, setRotationEnabled] = useState(false)
 
   //Creating Refs to preform animations
   const ModelRef = useRef()
@@ -16,55 +22,84 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
   const OuterSphere = useRef()
   const InnerSphere = useRef()
 
-  const { scrollYProgress } = useScroll();
-  
-
-  const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
-  const { actions } = useAnimations(animations, ModelRef)
-  const navigate = useNavigate()
-  const [rotationEnabled, setRotationEnabled] = useState(false)
-  
   //Changing Material Colors 
   materials['neoner_light.013'].color.set('#ffffff')
   materials['neoner_light.013'].emissive.set('#ffffff')
   materials['neoner_light.010'].color.set('#197998')
   materials['neoner_light.010'].emissive.set('#197998')
 
+  //Allowing the change of opacity of the models materials
+  const materialKeys = ['neoner_light.010','Material.001','neoner_wall.004', 'neoner_light.008','neoner_light.013']
+  materialKeys.forEach(mat => {
+      materials[mat].transparent = true;
+      materials[mat].opacity = 1;
+  })
+
   useEffect(() => {
-    // Create GSAP ScrollTrigger animation
+    //Scale Animation for Spheres
     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-      x: () => 1 + window.scrollY * 0.001, // Adjust scaling in x direction
-      y: () => 1 + window.scrollY * 0.001, // Adjust scaling in y direction
-      z: () => 1 + window.scrollY * 0.001, // Adjust scaling in z direction
-      duration: 1,
+      x:1.5,
+      y:1.5,
+      z:1.5,
       ease: 'none',
       scrollTrigger: {
-        trigger: wrapperRef.current, // Use the wrapper element for ScrollTrigger
-        start: 'top top',
-        end: 'bottom top',
+        trigger: ScrollTrigger.current, 
+        start: "top+=90 top",
+        end: "bottom+=260 top",
         scrub: true, // Sync with scroll
       },
     });
 
+    //Position Animation for model(Spheres)
+    gsap.to(ModelRef.current.position, {
+      y:-29,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: ScrollTrigger.current, 
+        start: "top+=90 top",
+        end: "bottom+=260 top",
+        scrub: true, // Sync with scroll
+      },
+
+    })
+    //Changing Opacity of spheres
+    materialKeys.slice(3).forEach(mat => {
+      gsap.to(materials[mat], {
+        opacity: 0.095,
+        ease: 'none',  
+        scrollTrigger: {
+          trigger: ScrollTrigger.current, 
+          start: 'top+=90 top',  // Start when scroll reaches this position
+          end: 'bottom+=260 top',  // End at this position
+          scrub: true,  
+        },
+      });
+    })
+    //Changing the opacity of the base
+    materialKeys.slice(0,4).forEach(mat => {
+      gsap.to(materials[mat], {
+        opacity: 0,
+        ease: 'none',  
+        scrollTrigger: {
+          trigger: ScrollTrigger.current, 
+          start: 'top+=50 top',  // Start when scroll reaches this position
+          end: 'bottom+=200 top',  // End at this position
+          scrub: true,  
+          markers: true
+        },
+      });
+    })
+
     // Cleanup function for ScrollTrigger when component unmounts
     return () => {
-      gsap.killTweensOf([OuterSphere.current.scale, InnerSphere.current.scale]);
+      gsap.killTweensOf([
+        OuterSphere.current.scale, 
+        InnerSphere.current.scale, 
+        ModelRef.current.position
+      ]);
     };
   }, []);
 
-  // useEffect(() => {
-    // useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    //   const scale = 1 + latest * 0.2;
-    //   console.log(scale)
-    
-    //   // Immediately set the scale based on scroll progress
-    //   gsap.set([OuterSphere.current.scale, InnerSphere.current.scale], {
-    //     x: scale,
-    //     y: scale,
-    //     z: scale,
-    //   });
-    // });
-  // }, [scrollYProgress]);
   useEffect(() => {
     setTimeout(() => {
       setRotationEnabled(true)
@@ -76,31 +111,6 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
       ModelRef.current.rotation.y += 0.005
     }
   })
-
-
-  
-  // useEffect(() => {
-  //   if (componentVisible) {
-  //     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-  //       x: 1,
-  //       y: 1,
-  //       z: 1,
-  //       duration: 1,
-  //       ease: 'power1.inOut',
-  //     });
-
-  //   } 
-  //   else {
-  //     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-  //       x: 1.2, // Target scale factor for the x-axis
-  //       y: 1.2, // Target scale factor for the y-axis
-  //       z: 1.2, // Target scale factor for the z-axis
-  //       duration: 1, // Duration of the animation in seconds
-  //       ease: 'power1.inOut', // Easing function for the animation
-  //     });
-  //   }
-  // }, [componentVisible]);
-
 
   return (
     <group ref={ModelRef} {...props} dispose={null}>
@@ -163,7 +173,7 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
           </group>
         </group>
       </group>
-      {/* <GlobePoints
+       <GlobePoints
         position={[0.93, 2, 2]}
         visible = {componentVisible}  
       />
@@ -179,7 +189,7 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
         position={[1.84, 5, -3]}
         visible = {componentVisible}
       />
-      <Tooltip
+      {/*<Tooltip
         visible = {componentVisible}
         cardScale={[0.009, 0.011, 0.001]}
         cardPosition={[1.2, 1.5, 2.6]}  
@@ -239,25 +249,9 @@ const MeshGlobe = ({wrapperRef, componentVisible, ...props}) => {
 useGLTF.preload('/src/assets/Models/MeshGlobe.glb') // Corrected path
 export default MeshGlobe
 
-// useEffect(() => {
-//   if (BaseRef.current && materials) {
-//     ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
-//       materials[mat].transparent = true;
-//       materials[mat].opacity = 1; // Initial opacity set to 1
-//     });
-//   }
-// }, [materials]);
 
-// useEffect(() => {
-//   if (ModelRef.current) {
-//     // Animate the Y position when `componentVisible` changes
-//     gsap.to(ModelRef.current.position, {
-//       y: componentVisible ? -16 : -19, // Example: Move up to -10 when visible, else reset to -19
-//       duration: 1, // Animation duration
-//       ease: 'power2.inOut', // Easing
-//     });
-//   }
-// }, [componentVisible]);
+
+
 
 // // Animate opacity based on componentVisible for multiple materials
 // useEffect(() => {

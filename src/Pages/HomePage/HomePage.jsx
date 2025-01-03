@@ -19,7 +19,7 @@ const HomePage = () => {
   const { scrollYProgress } = useScroll();
   const [controls , setControls] = useState(true) 
 
-  const ModelRef = useRef()
+  const ModelContainerRef = useRef()
   const IntroDivRef = useRef()
 
   // const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
@@ -28,45 +28,44 @@ const HomePage = () => {
   // const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
 
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log("Normalized scroll progress hdffhdh:", latest);
-    // Execute your logic based on the scroll progress (0 to 1)
-    if (latest > 0.2) {
-      console.log("Scrolled more than 50%");
-      setControls(false)
-      // Your custom logic for 50% scroll progress or beyond
-    }
-    else{
-      setControls(true)
-    }
-  });
+  // useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  //   console.log("Normalized scroll progress hdffhdh:", latest);
+  //   // Execute your logic based on the scroll progress (0 to 1)
+  //   if (latest > 0.2) {
+  //     console.log("Scrolled more than 50%");
+  //     setControls(false)
+  //     // Your custom logic for 50% scroll progress or beyond
+  //   }
+  //   else{
+  //     setControls(true)
+  //   }
+  // });
 
   useEffect(() => {
-    
     gsap.fromTo(
       //Model current state
-      ModelRef.current,
-      //Initial position of the element we are moving
-      { y: 0, x: 0 },
+      ModelContainerRef.current,
+      //Initial state of the element we are changing
+      { y: 0, x: 0, height: '550px' },
       {
-        y: 950,
-        x: -900,
+        y: 900,
+        x: -800,
+        height: '600px',
         ease: "none",
-        
         scrollTrigger: {
           //Triggering animation based on viewport position with reference to intro div
           trigger: IntroDivRef.current,
-          start: "top+=100 top",
-          end: "bottom+=290 top",
+          start: "top+=90 top",
+          end: "bottom+=260 top",
           scrub: true,
           markers: true
         },
       }
     );
 
-    // Cleanup function to remove ScrollTrigger instance
+    // Cleanup function to remove ScrollTrigger instances
     return () => {
-      ScrollTrigger.getById(ModelRef.current)?.kill();
+      ScrollTrigger.getById(ModelContainerRef.current)?.kill();
     };
   }, []);
   
@@ -88,7 +87,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <motion.div className="CanvasContainer" ref={ModelRef}  >
+          <motion.div className="CanvasContainer" ref={ModelContainerRef}  >
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -131,11 +130,13 @@ const HomePage = () => {
                   distance={100}
                 />
                 <PerspectiveCamera makeDefault position={[0, 0, 50]} />
-                <MeshGlobe scale={4} 
+                <MeshGlobe
+                scale={4} 
                 position={[0, -15.5, 0]} 
+                // position={[0,-29,0]}
                 rotation={[0, -Math.PI/2, 0]} 
                 componentVisible={controls}
-                wrapperRef={ModelRef}
+                ScrollTrigger = {IntroDivRef}
                 // Pass the rotation state to MeshGlobe
                 />
                 <OrbitControls   
