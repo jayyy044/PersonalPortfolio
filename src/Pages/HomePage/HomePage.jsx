@@ -3,42 +3,72 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
-import React, {Suspense, useState} from 'react'
+import React, {Suspense, useRef, useState, useEffect} from 'react'
 import { useInView } from 'react-intersection-observer';
 import ProfilePic from '../../assets/Profile.png'
 import { motion, useScroll, useTransform } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register the ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
 
 const HomePage = () => {
   const { scrollYProgress } = useScroll();
   const [controls , setControls] = useState(true) 
 
-  // const y = useTransform(scrollYProgress, [0, 0.6], [0, 950]); // Adjust the range as needed
-  // const x = useTransform(scrollYProgress, [0, 0.6], [0, -900]); // Adjust the range for x-movement
-  // const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
-  // const height = useTransform(scrollYProgress, [0, 0.6], [620, 950]); //
+  const ModelContainerRef = useRef()
+  const IntroDivRef = useRef()
 
+  // useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  //   console.log("Normalized scroll progress hdffhdh:", latest);
+  //   // Execute your logic based on the scroll progress (0 to 1)
+  //   if (latest > 0.2) {
+  //     console.log("Scrolled more than 50%");
+  //     setControls(false)
+  //     // Your custom logic for 50% scroll progress or beyond
+  //   }
+  //   else{
+  //     setControls(true)
+  //   }
+  // });
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    console.log("Normalized scroll progress:", latest);
-    // Execute your logic based on the scroll progress (0 to 1)
-    if (latest > 0.2) {
-      console.log("Scrolled more than 50%");
-      setControls(false)
-      // Your custom logic for 50% scroll progress or beyond
-    }
-    else{
-      setControls(true)
-    }
-  });
+  useEffect(() => {
+    gsap.fromTo(
+      //Model current state
+      ModelContainerRef.current,
+      //Initial state of the element we are changing
+      { y: 0, x: 0, height: '550px' },
+      {
+        y: 900,
+        x: -800,
+        height: '600px',
+        ease: "none",
+        scrollTrigger: {
+          //Triggering animation based on viewport position with reference to intro div
+          trigger: IntroDivRef.current,
+          start: "top+=90 top",
+          end: "bottom+=260 top",
+          scrub: true,
+          markers: true
+        },
+      }
+    );
+
+    // Cleanup function to remove ScrollTrigger instances
+    return () => {
+      ScrollTrigger.getById(ModelContainerRef.current)?.kill();
+    };
+  }, []);
   
 
 
   return (
     <main className='PageContainer'>
       <div className='HomePageContainer'>
-          <div className="IntroContainer">
+          <div className="IntroContainer" ref={IntroDivRef}>
               <span>
                 <h1>Hi, I'm</h1>
                 <h1 style={{marginLeft: '15px',color: 'var(--AccentColor)'}}>
@@ -51,7 +81,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <motion.div className="CanvasContainer" style={{ y, x, opacity, height }} >
+          <motion.div className="CanvasContainer" ref={ModelContainerRef}  >
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -94,10 +124,12 @@ const HomePage = () => {
                   distance={100}
                 />
                 <PerspectiveCamera makeDefault position={[0, 0, 50]} />
-                <MeshGlobe scale={4} 
-                position={[0, -16, 0]} 
+                <MeshGlobe
+                scale={4} 
+                position={[0, -15.5, 0]} 
+                // position={[0,-29,0]}
                 rotation={[0, -Math.PI/2, 0]} 
-                componentVisible={controls}
+                ScrollTrigger = {IntroDivRef}
                 // Pass the rotation state to MeshGlobe
                 />
                 <OrbitControls   

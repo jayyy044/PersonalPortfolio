@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import GlobePoints from './GlobePoints.jsx'
 import Tooltip from './Tooltip.jsx'
 import gsap from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+// Register the ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
 
-
-
-
-
-const MeshGlobe = ({componentVisible, ...props}) => {
+const MeshGlobe = ({ScrollTrigger,...props}) => {
+  const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
+  const navigate = useNavigate()
+  const [rotationEnabled, setRotationEnabled] = useState(false)
 
   //Creating Refs to preform animations
   const ModelRef = useRef()
@@ -19,19 +21,86 @@ const MeshGlobe = ({componentVisible, ...props}) => {
   const OuterSphere = useRef()
   const InnerSphere = useRef()
 
-  const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const { actions } = useAnimations(animations, ModelRef)
-  const navigate = useNavigate()
-  const [rotationEnabled, setRotationEnabled] = useState(false)
-  
+
   //Changing Material Colors 
   materials['neoner_light.013'].color.set('#ffffff')
   materials['neoner_light.013'].emissive.set('#ffffff')
   materials['neoner_light.010'].color.set('#197998')
   materials['neoner_light.010'].emissive.set('#197998')
 
+  //Allowing the change of opacity of the models materials
+  const materialKeys = ['neoner_light.010','Material.001','neoner_wall.004', 'neoner_light.008','neoner_light.013']
+  materialKeys.forEach(mat => {
+      materials[mat].transparent = true;
+      materials[mat].opacity = 1;
+  })
 
-  
+  useEffect(() => {
+    //Scale Animation for Spheres
+    gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
+      x:1.5,
+      y:1.5,
+      z:1.5,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: ScrollTrigger.current, 
+        start: "top+=90 top",
+        end: "bottom+=260 top",
+        scrub: true, // Sync with scroll
+      },
+    });
+
+    //Position Animation for model(Spheres)
+    gsap.to(ModelRef.current.position, {
+      y:-29,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: ScrollTrigger.current, 
+        start: "top+=90 top",
+        end: "bottom+=260 top",
+        scrub: true, // Sync with scroll
+      },
+
+    })
+    //Changing Opacity of spheres
+    materialKeys.slice(3).forEach(mat => {
+      gsap.to(materials[mat], {
+        opacity: 0.095,
+        ease: 'none',  
+        scrollTrigger: {
+          trigger: ScrollTrigger.current, 
+          start: 'top+=90 top',  // Start when scroll reaches this position
+          end: 'bottom+=260 top',  // End at this position
+          scrub: true,  
+        },
+      });
+    })
+    //Changing the opacity of the base
+    materialKeys.slice(0,4).forEach(mat => {
+      gsap.to(materials[mat], {
+        opacity: 0,
+        ease: 'none',  
+        scrollTrigger: {
+          trigger: ScrollTrigger.current, 
+          start: 'top+=50 top',  // Start when scroll reaches this position
+          end: 'bottom+=200 top',  // End at this position
+          scrub: true,  
+          markers: true
+        },
+      });
+    })
+
+    // Cleanup function for ScrollTrigger when component unmounts
+    return () => {
+      gsap.killTweensOf([
+        OuterSphere.current.scale, 
+        InnerSphere.current.scale, 
+        ModelRef.current.position
+      ]);
+    };
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setRotationEnabled(true)
@@ -44,31 +113,6 @@ const MeshGlobe = ({componentVisible, ...props}) => {
     }
   })
 
-
-  
-  useEffect(() => {
-    if (componentVisible) {
-      gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-        x: 1,
-        y: 1,
-        z: 1,
-        duration: 1,
-        ease: 'power1.inOut',
-      });
-
-    } 
-    else {
-      gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-        x: 1.2, // Target scale factor for the x-axis
-        y: 1.2, // Target scale factor for the y-axis
-        z: 1.2, // Target scale factor for the z-axis
-        duration: 1, // Duration of the animation in seconds
-        ease: 'power1.inOut', // Easing function for the animation
-      });
-    }
-  }, [componentVisible]);
-
-
   return (
     <group ref={ModelRef} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
@@ -79,7 +123,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
             scale={0.01}>
             <group name="Object_2">
               <group name="RootNode">
-                {/* <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
+                <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
                     ref={BaseRef}
                     name="Stand_neoner_wall004_0"
@@ -104,7 +148,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
                     geometry={nodes.Stand_neoner_light010_0.geometry}
                     material={materials['neoner_light.010']}
                   />
-                </group> */}
+                </group>
                  <group name="Sphere" rotation={[Math.PI / 2, 0, 0]}>
                   <mesh
                     name="Sphere_neoner_light008_0"
@@ -130,25 +174,28 @@ const MeshGlobe = ({componentVisible, ...props}) => {
           </group>
         </group>
       </group>
-      {/* <GlobePoints
+       <GlobePoints
         position={[0.93, 2, 2]}
-        visible = {componentVisible}  
+        ScrollTrigger={ScrollTrigger}
       />
       <GlobePoints
         position={[2.5, 5.8, 2.3]}
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
+
       />
       <GlobePoints
         position={[-3.4, 5.8, 0.15]}
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
+
       />
       <GlobePoints
         position={[1.84, 5, -3]}
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
+
       />
       <Tooltip
-        visible = {componentVisible}
-        cardScale={[0.009, 0.011, 0.001]}
+        ScrollTrigger={ScrollTrigger}
+          cardScale={[0.009, 0.011, 0.001]}
         cardPosition={[1.2, 1.5, 2.6]}  
         cardRotation={[0, 2, 2.2]}
         tooltipPosition1={[1.3, 1.12, 2.85]}
@@ -160,7 +207,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />  
       <Tooltip
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
         cardScale={[0.009, 0.015, 0.001]}
         cardPosition={[3.08, 6.27, 2.9]}  
         cardRotation={[-0.4, 2.2, 1.4]}
@@ -173,7 +220,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
         cardScale={[0.009, 0.019, 0.001]}
         cardPosition={[2.31, 5.41, -3.95]}  
         cardRotation={[-18.8, 1.1, -1.23]}
@@ -186,7 +233,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip
-        visible = {componentVisible}
+        ScrollTrigger={ScrollTrigger}
         cardScale={[0.009, 0.019, 0.001]}
         cardPosition={[-4.5, 6.28, 0.14]}  
         cardRotation={[0, 0, 1.2]}
@@ -197,7 +244,7 @@ const MeshGlobe = ({componentVisible, ...props}) => {
         tooltipRotation2={[0, 3.14 , 0.38 ]}
         onClick={() => navigate('/contact')} 
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
-      /> */}
+      />
 
     </group>
   )
@@ -206,36 +253,8 @@ const MeshGlobe = ({componentVisible, ...props}) => {
 useGLTF.preload('/src/assets/Models/MeshGlobe.glb') // Corrected path
 export default MeshGlobe
 
-// useEffect(() => {
-//   if (BaseRef.current && materials) {
-//     ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
-//       materials[mat].transparent = true;
-//       materials[mat].opacity = 1; // Initial opacity set to 1
-//     });
-//   }
-// }, [materials]);
 
-// useEffect(() => {
-//   if (ModelRef.current) {
-//     // Animate the Y position when `componentVisible` changes
-//     gsap.to(ModelRef.current.position, {
-//       y: componentVisible ? -16 : -19, // Example: Move up to -10 when visible, else reset to -19
-//       duration: 1, // Animation duration
-//       ease: 'power2.inOut', // Easing
-//     });
-//   }
-// }, [componentVisible]);
 
-// // Animate opacity based on componentVisible for multiple materials
-// useEffect(() => {
-//   if (BaseRef.current && materials) {
-//     ['neoner_wall.004', 'Material.001', 'neoner_light.010'].forEach(mat => {
-//       gsap.to(materials[mat], {
-//         opacity: componentVisible ? 1 : 0,
-//         duration: 1,
-//         ease: 'power2.inOut',
-//       });
-//     });
-//   }
-// }, [componentVisible, materials]);
+
+
 
