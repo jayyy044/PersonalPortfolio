@@ -78,7 +78,7 @@ const Tooltip = ({
                 start: 'top+=150 top',  
                 end: 'bottom+=50 top',  
                 scrub: true,
-              },
+            },
         });
     
       }, []);
