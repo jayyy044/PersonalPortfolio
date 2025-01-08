@@ -3,10 +3,8 @@ import TooltipCard from './TooltipCard';
 import { Text3D } from '@react-three/drei';
 import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import _Flip from 'gsap/Flip';
 
 gsap.registerPlugin(ScrollTrigger);
-gsap.registerPlugin(_Flip);
 
 
 const Tooltip = ({
@@ -66,7 +64,7 @@ const Tooltip = ({
             scrollTrigger: {
                 trigger: ScrollTrigger.current, 
                 start: 'top+=150 top',  
-                end: 'bottom+=50 top',  
+                end: 'bottom+=20 top',  
                 scrub: true,
               },
         });
@@ -79,8 +77,10 @@ const Tooltip = ({
             scrollTrigger: {
                 trigger: ScrollTrigger.current, 
                 start: 'top+=150 top',  
-                end: 'bottom+=50 top',  
+                end: 'bottom+=20 top',  
                 scrub: true,
+                markers: true
+
             },
         });
     

@@ -30,7 +30,7 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
   materials['neoner_light.010'].emissive.set('#197998')
 
   //Allowing the change of opacity of the models materials
-  const materialKeys = ['neoner_light.010','Material.001','neoner_wall.004', 'neoner_light.008','neoner_light.013']
+  const materialKeys = ['neoner_light.008','neoner_light.013']
   materialKeys.forEach(mat => {
       materials[mat].transparent = true;
       materials[mat].opacity = 1;
@@ -61,10 +61,10 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
         end: "bottom+=260 top",
         scrub: true, // Sync with scroll
       },
-
     })
+
     //Changing Opacity of spheres
-    materialKeys.slice(3).forEach(mat => {
+    materialKeys.forEach(mat => {
       gsap.to(materials[mat], {
         opacity: 0.09,
         ease: 'none',  
@@ -76,18 +76,19 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
         },
       });
     })
-    //Changing the opacity of the base
-    materialKeys.slice(0,4).forEach(mat => {
-      gsap.to(materials[mat], {
-        opacity: 0,
-        ease: 'none',  
-        scrollTrigger: {
-          trigger: ScrollTrigger.current, 
-          start: 'top+=50 top',  // Start when scroll reaches this position
-          end: 'bottom+=200 top',  // End at this position
-          scrub: true,  
-        },
-      });
+    //Changing the size of the base
+    gsap.to(BaseRef.current.scale,{
+      x: 0,
+      y: 0,
+      z: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: ScrollTrigger.current, 
+        start: 'top+=50 top',  // Start when scroll reaches this position
+        end: 'bottom+=200 top',  // End at this position
+        scrub: true,  
+        markers: true
+      },
     })
 
     // Cleanup function for ScrollTrigger when component unmounts
@@ -122,9 +123,8 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
             scale={0.01}>
             <group name="Object_2">
               <group name="RootNode">
-                <group name="Stand" rotation={[Math.PI / 2, 0, 0]}>
+                <group name="Stand" rotation={[Math.PI / 2, 0, 0]} ref={BaseRef}>
                   <mesh
-                    ref={BaseRef}
                     name="Stand_neoner_wall004_0"
                     castShadow
                     receiveShadow
@@ -132,7 +132,6 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
                     material={materials['neoner_wall.004']}
                   />
                   <mesh
-                    ref={BaseRef}
                     name="Stand_Material001_0"
                     castShadow
                     receiveShadow
@@ -140,7 +139,6 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
                     material={materials['Material.001']}
                   />
                   <mesh
-                    ref={BaseRef}
                     name="Stand_neoner_light010_0"
                     castShadow
                     receiveShadow
