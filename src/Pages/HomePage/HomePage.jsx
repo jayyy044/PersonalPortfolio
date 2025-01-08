@@ -4,6 +4,7 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
 import React, {Suspense, useRef, useState, useEffect} from 'react'
+import ProfilePic from '../../assets/Profile.png'
 import { useScroll } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
 import gsap from 'gsap'

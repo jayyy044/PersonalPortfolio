@@ -3,8 +3,11 @@ import TooltipCard from './TooltipCard';
 import { Text3D } from '@react-three/drei';
 import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import _Flip from 'gsap/Flip';
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(_Flip);
+
 
 const Tooltip = ({
     ScrollTrigger,  

@@ -10,7 +10,7 @@ const TooltipCard = ({ ScrollTrigger, scale, position, rotation, color, ...props
   const customMaterial = React.useMemo(() => {
     const mat = materials.lambert4.clone();
     mat.color.set(color);
-    mat.transparent = true; // Ensure transparency is enabled
+    mat.transparent = true; 
     mat.opacity = 1;
     return mat;
   }, [materials.lambert4, color]);
