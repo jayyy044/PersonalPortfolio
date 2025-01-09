@@ -1,3 +1,16 @@
 .ExperienceContainer{
     color: white;
+    border: 1px solid red;
+    margin-top: 100px;
+    display: flex;
+    padding-inline: 20px;
+}
+
+.ExperienceContainer h1{
+    margin-inline: auto;
+    /* margin-right: 50px; */
+    font-size: 6.5rem;
+    color: var(--AccentColor);
+    font-weight: 400;
+
 }

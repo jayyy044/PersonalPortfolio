@@ -76,19 +76,32 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
         },
       });
     })
-    //Changing the size of the base
-    gsap.to(BaseRef.current.scale,{
-      x: 0,
-      y: 0,
-      z: 0,
+    // //Changing the size of the base
+    // gsap.to(BaseRef.current.scale,{
+    //   x: 0,
+    //   y: 0,
+    //   z: 0,
+    //   ease: 'none',
+    //   scrollTrigger: {
+    //     trigger: ScrollTrigger.current, 
+    //     start: 'top+=50 top',  // Start when scroll reaches this position
+    //     end: 'bottom+=200 top',  // End at this position
+    //     scrub: true,  
+    //   },
+    // })
+
+    gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
+      x:1.43,
+      y:1.43,
+      z:1.43,
       ease: 'none',
       scrollTrigger: {
         trigger: ScrollTrigger.current, 
-        start: 'top+=50 top',  // Start when scroll reaches this position
-        end: 'bottom+=200 top',  // End at this position
-        scrub: true,  
+        start: "top+=90 top",
+        end: "bottom+=260 top",
+        scrub: true, // Sync with scroll
       },
-    })
+    });
 
     // Cleanup function for ScrollTrigger when component unmounts
     return () => {

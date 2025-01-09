@@ -7,7 +7,7 @@ import './AboutMe.css'
 const AboutMe = forwardRef((props, ref) => {
   return (
     <div className='AboutMeContainer' ref={ref}>
-        <motion.section 
+        <motion.article 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.27 }}
@@ -27,13 +27,13 @@ const AboutMe = forwardRef((props, ref) => {
             I am a Computer-Nano Engineering student at the University of Alberta, passionate about creating impactful solutions. From developing embedded systems projects and dynamic websites to experimenting with machine learning models and exploring data visualization, I am dedicated to bringing software to life in meaningful ways.
             </p>
           </div>
-        </motion.section>
+        </motion.article>
         <motion.aside
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           transition={{
-            duration: 2.3,
+            duration: 2.45,
             ease: "linear",
           }}
           variants={{
