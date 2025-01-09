@@ -1,18 +1,24 @@
 import React from 'react'
 import './NavBar.css'
 import Logo from '../../assets/Logo.png'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import { Link as ScrollLink } from 'react-scroll'
 
 const NavBar = () => {
   return (
     <div className='NavBarContainer'>
         <img src={Logo} alt='Logo' className='LogoImg' />
         <div className="NavLinks">
-            <Link to='/'>Home</Link>
-            <Link to='/About'>About</Link>
-            <Link to='/Skills'>Skills</Link>
-            <Link to='/Projects'>Projects</Link> 
-            <Link to='/Contact'>Contact</Link> 
+            <RouterLink to='/'>Home</RouterLink>
+            <ScrollLink 
+              to='AboutMeContainer'
+              smooth={true}
+              duration={3000}
+              offset={-200}
+              >About</ScrollLink>
+            <RouterLink to='/Skills'>Skills</RouterLink>
+            <RouterLink to='/Projects'>Projects</RouterLink> 
+            <RouterLink to='/Contact'>Contact</RouterLink> 
         </div>
     </div>
   )

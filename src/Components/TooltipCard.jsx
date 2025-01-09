@@ -26,7 +26,6 @@ const TooltipCard = ({ ScrollTrigger, scale, position, rotation, color, ...props
         start: 'top+=150 top',
         end: 'bottom+=130 top',
         scrub: true,
-        markers: true
       },
     });
 
@@ -39,7 +38,6 @@ const TooltipCard = ({ ScrollTrigger, scale, position, rotation, color, ...props
         trigger: ScrollTrigger.current, 
         start: 'top+=150 top',  
         end: 'bottom+=30 top',  
-        markers: true,  
         scrub: true,
       },
     })

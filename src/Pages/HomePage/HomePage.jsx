@@ -4,16 +4,17 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
 import React, {Suspense, useRef, useState, useEffect} from 'react'
-import ProfilePic from '../../assets/Profile.png'
+// import ProfilePic from '../../assets/Profile.png'
 import { useScroll } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AboutMe from '../../Components/AboutMe/AboutMe.jsx'
+import Experience from '../../Components/Experience/Experience.jsx'
+import { scroller } from 'react-scroll';
 
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
-
 
 const HomePage = () => {
   const { scrollYProgress } = useScroll();
@@ -22,6 +23,7 @@ const HomePage = () => {
 
   const ModelContainerRef = useRef()
   const IntroDivRef = useRef()
+  const AboutMeRef = useRef(null)
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (latest > 0.2) {
@@ -58,9 +60,16 @@ const HomePage = () => {
       ScrollTrigger.getById(ModelContainerRef.current)?.kill();
     };
   }, []);
+
+  const scrollToAboutMe = () => {
+    scroller.scrollTo('AboutMeContainer', {
+      duration: 3000,
+      delay: 0,
+      smooth: 'true',
+      offset: -200, // Adjust this value based on your layout
+    });
+   };
   
-
-
   return (
     <main className='PageContainer'>
       <div className='HomePageContainer'>
@@ -77,7 +86,7 @@ const HomePage = () => {
                 <h3>at the University of Alberta</h3>
               </span>
           </div>
-          <div className="CanvasContainer" ref={ModelContainerRef}>
+          <div className="CanvasContainer" ref={ModelContainerRef} style={{ cursor: controls ? 'grab' : 'auto' }}>
             {/* <Leva /> */}
             <Canvas>
               <Suspense fallback={<CanvasLoader />}>
@@ -125,6 +134,7 @@ const HomePage = () => {
                 position={[0, -15.5, 0]} 
                 rotation={[0, -Math.PI/2, 0]} 
                 ScrollTrigger = {IntroDivRef}
+                onAboutMeClick = {scrollToAboutMe}
                 />
                 <OrbitControls   
                   enableZoom={false} 
@@ -136,7 +146,8 @@ const HomePage = () => {
             </Canvas>
           </div>       
       </div>
-      <AboutMe/>
+      <AboutMe ref={AboutMeRef}/>
+      <Experience/>
     </main> 
   )
 }

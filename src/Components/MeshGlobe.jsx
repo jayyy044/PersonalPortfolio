@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const MeshGlobe = ({ScrollTrigger,...props}) => {
+const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
@@ -87,7 +87,6 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
         start: 'top+=50 top',  // Start when scroll reaches this position
         end: 'bottom+=200 top',  // End at this position
         scrub: true,  
-        markers: true
       },
     })
 
@@ -213,7 +212,7 @@ const MeshGlobe = ({ScrollTrigger,...props}) => {
         tooltipData={[2]}
         tooltipPosition2={[2.77, 5.86, 2.587]}
         tooltipRotation2={[-0.4, 5.3418, 0.18]}
-        onClick={() => navigate('/about')} 
+        onClick={onAboutMeClick} 
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip

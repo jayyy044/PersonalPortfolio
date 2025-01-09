@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import ProfilePic from '../../assets/Profile.png'
+import Unavailable from '../../assets/UnavailableProfilePic.png'
 import { motion} from "motion/react"
 import './AboutMe.css'
 
-const AboutMe = () => {
+const AboutMe = forwardRef((props, ref) => {
   return (
-    <div className='AboutMeContainer'>
+    <div className='AboutMeContainer' ref={ref}>
         <motion.section 
           initial="hidden"
           whileInView="visible"
@@ -40,10 +41,11 @@ const AboutMe = () => {
             visible: { opacity: 1, translateX: 0 },
           }}
           className='ImgAside'>
-          <img src={ProfilePic} alt='Image'/>
+          {/* <img src={ProfilePic} alt='Image'/> */}
+          <img src={Unavailable} alt='Image'/>
         </motion.aside>
     </div>
   )
-}
+})
 
 export default AboutMe

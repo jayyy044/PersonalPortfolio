@@ -79,8 +79,6 @@ const Tooltip = ({
                 start: 'top+=150 top',  
                 end: 'bottom+=20 top',  
                 scrub: true,
-                markers: true
-
             },
         });
     
