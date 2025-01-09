@@ -133,7 +133,8 @@ const HomePage = () => {
                 scale={4} 
                 position={[0, -15.5, 0]} 
                 rotation={[0, -Math.PI/2, 0]} 
-                ScrollTrigger = {IntroDivRef}
+                // ScrollTrigger = {IntroDivRef}
+                introDivScrollTrigger = {IntroDivRef}
                 onAboutMeClick = {scrollToAboutMe}
                 />
                 <OrbitControls   
