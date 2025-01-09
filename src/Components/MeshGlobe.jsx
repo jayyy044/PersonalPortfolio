@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
+const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger,...props}) => {
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
@@ -44,7 +44,7 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
       z:1.43,
       ease: 'none',
       scrollTrigger: {
-        trigger: ScrollTrigger.current, 
+        trigger: introDivScrollTrigger.current, 
         start: "top+=90 top",
         end: "bottom+=260 top",
         scrub: true, // Sync with scroll
@@ -56,7 +56,7 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
       y:-27,
       ease: 'none',
       scrollTrigger: {
-        trigger: ScrollTrigger.current, 
+        trigger: introDivScrollTrigger.current, 
         start: "top+=90 top",
         end: "bottom+=260 top",
         scrub: true, // Sync with scroll
@@ -69,7 +69,7 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
         opacity: 0.09,
         ease: 'none',  
         scrollTrigger: {
-          trigger: ScrollTrigger.current, 
+          trigger: introDivScrollTrigger.current, 
           start: 'top+=90 top',  // Start when scroll reaches this position
           end: 'bottom+=260 top',  // End at this position
           scrub: true,  
@@ -96,10 +96,10 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
       z:1.43,
       ease: 'none',
       scrollTrigger: {
-        trigger: ScrollTrigger.current, 
-        start: "top+=90 top",
-        end: "bottom+=260 top",
-        scrub: true, // Sync with scroll
+        trigger: introDivScrollTrigger.current, 
+        start: 'top+=50 top',  // Start when scroll reaches this position
+        end: 'bottom+=200 top',  // End at this position
+        scrub: true,  
       },
     });
 
@@ -185,25 +185,25 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
       </group>
        <GlobePoints
         position={[0.93, 2, 2]}
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
       />
       <GlobePoints
         position={[2.5, 5.8, 2.3]}
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
 
       />
       <GlobePoints
         position={[-3.4, 5.8, 0.15]}
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
 
       />
       <GlobePoints
         position={[1.84, 5, -3]}
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
 
       />
       <Tooltip
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
           cardScale={[0.009, 0.011, 0.001]}
         cardPosition={[1.2, 1.5, 2.6]}  
         cardRotation={[0, 2, 2.2]}
@@ -216,7 +216,7 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />  
       <Tooltip
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
         cardScale={[0.009, 0.015, 0.001]}
         cardPosition={[3.08, 6.27, 2.9]}  
         cardRotation={[-0.4, 2.2, 1.4]}
@@ -229,7 +229,7 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
         cardScale={[0.009, 0.019, 0.001]}
         cardPosition={[2.31, 5.41, -3.95]}  
         cardRotation={[-18.8, 1.1, -1.23]}
@@ -242,7 +242,7 @@ const MeshGlobe = ({onAboutMeClick, ScrollTrigger,...props}) => {
         onHoverChange={() => setRotationEnabled(!rotationEnabled)}
       />
       <Tooltip
-        ScrollTrigger={ScrollTrigger}
+        ScrollTrigger={introDivScrollTrigger}
         cardScale={[0.009, 0.019, 0.001]}
         cardPosition={[-4.5, 6.28, 0.14]}  
         cardRotation={[0, 0, 1.2]}
