@@ -1,10 +1,11 @@
 .ExperienceContainer{
     color: white;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     margin-top: 100px;
     display: flex;
     padding-inline: 20px;
     height: 800px;
+    flex-direction: column;
 }
 
 .ExperienceContainer h1{
@@ -15,3 +16,29 @@
     font-weight: 400;
 
 }
+
+.tooltip {
+    position: fixed;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 8px;
+    width: 1000px;
+    height: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    top: 58%;
+    left: 62%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .tooltip-notch {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    left: -43px;
+    top: 32%;
+    transform: translateY(-50%);
+    border-width: 50px 45px 50px 0;
+    border-color: transparent #333 transparent transparent;
+  }

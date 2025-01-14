@@ -59,16 +59,16 @@ const HomePage = () => {
         ModelContainerRef.current,
         { y:900, x:-800, height: '640px'},
         {
-          x:-100,
-          y:1700,
-          height: '100px',
+          x:-550,
+          y:1400,
+          opacity: 1,
+          height: '310px',
           ease: 'none',
           scrollTrigger:{
             trigger: AboutMeRef.current,
             start: "top+=90 top",
-            end: "bottom+=60 top",
+            end: "bottom-=150 top",
             scrub: true,
-            markers: true,
             immediateRender: false
           }       
         }
@@ -156,6 +156,7 @@ const HomePage = () => {
                 introDivScrollTrigger = {IntroDivRef}
                 aboutMeDivScrollTrigger = {AboutMeRef}
                 onAboutMeClick = {scrollToAboutMe}
+                opacityControl = {controls}
                 />
                 <OrbitControls   
                   enableZoom={false} 

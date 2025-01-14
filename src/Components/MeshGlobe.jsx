@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigger,...props}) => {
+const MeshGlobe = ({ opacityControl, onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigger,...props}) => {
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
@@ -30,11 +30,11 @@ const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigg
   materials['neoner_light.010'].emissive.set('#197998')
 
   //Allowing the change of opacity of the models materials
-  const materialKeys = ['neoner_light.008','neoner_light.013']
-  materialKeys.forEach(mat => {
-      materials[mat].transparent = true;
-      materials[mat].opacity = 1;
-  })
+  // const materialKeys = ['neoner_light.008','neoner_light.013']
+  // materialKeys.forEach(mat => {
+  //     materials[mat].transparent = true;
+  //     materials[mat].opacity = 1;
+  // })
 
   useEffect(() => {
     //Scale Animation for Spheres
@@ -64,18 +64,7 @@ const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigg
     })
 
     //Changing Opacity of spheres
-    materialKeys.forEach(mat => {
-      gsap.to(materials[mat], {
-        opacity: 0.09,
-        ease: 'none',  
-        scrollTrigger: {
-          trigger: introDivScrollTrigger.current, 
-          start: 'top+=90 top',  // Start when scroll reaches this position
-          end: 'bottom+=260 top',  // End at this position
-          scrub: true,  
-        },
-      });
-    })
+
 
     // //Changing the size of the base
     gsap.to(BaseRef.current.scale,{
@@ -88,23 +77,64 @@ const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigg
         start: 'top+=50 top',  // Start when scroll reaches this position
         end: 'bottom+=120 top',  // End at this position
         scrub: true,  
+      },
+    })
+    gsap.set([materials['neoner_light.008'], materials['neoner_light.013']], { transparent: true, opacity: 1 });
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: introDivScrollTrigger.current,
+        start: 'top+=90 top',  // Start when scroll reaches this position
+        end: 'bottom+=260 top',  // End at this position
+        scrub: true,
+        markers: true
+      }
+    })
+    .to([materials['neoner_light.008'],materials['neoner_light.013']], {
+      opacity: 0.09,
+      ease: 'none'
+    });
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: aboutMeDivScrollTrigger.current, 
+        start: "top+=90 top",
+        end: "bottom-=150 top",  // End at this position
+        scrub: true,  
         markers: true
       },
     })
+    .to([materials['neoner_light.008'],materials['neoner_light.013']], {
+      opacity: 1,
+      ease: 'none'
+    });
 
-    // gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-    //   x:0,
-    //   y:0,
-    //   z:0,
-    //   ease: 'none',
-    //   scrollTrigger: {
-    //     trigger: aboutMeDivScrollTrigger.current, 
-    //     start: 'top+=50 top',  // Start when scroll reaches this position
-    //     end: 'bottom+=50 top',  // End at this position
-    //     scrub: true,  
-    //     markers: true
-    //   },
-    // });
+    // materialKeys.forEach(mat => {
+    //   gsap.to(materials[mat], {
+    //     opacity: 0.09,
+    //     ease: 'none',  
+    //     scrollTrigger: {
+    //       trigger: introDivScrollTrigger.current, 
+    //       start: 'top+=90 top',  // Start when scroll reaches this position
+    //       end: 'bottom+=260 top',  // End at this position
+    //       scrub: true,  
+    //     },
+    //   });
+    // })
+
+    // materialKeys.forEach(mat => {
+    //   gsap.to(materials[mat], {
+    //     opacity: 0.5,
+    //     ease: 'none',  
+    //     scrollTrigger: {
+    //       trigger: aboutMeDivScrollTrigger.current, 
+    //       start: "top+=90 top",
+    //       end: "bottom-=150 top",  // End at this position
+    //       scrub: true,  
+    //       markers: true
+    //     },
+    //   });
+    // })
+    
+
 
     // Cleanup function for ScrollTrigger when component unmounts
     return () => {
@@ -120,7 +150,7 @@ const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigg
     setTimeout(() => {
       setRotationEnabled(true)
     }, 500)
-  }, [])
+  }, [opacityControl])
 
   useFrame(() => {
     if (rotationEnabled) {
