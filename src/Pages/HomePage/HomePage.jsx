@@ -35,101 +35,51 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    // Ensure the element starts at the correct position on page load/refresh
-    gsap.set(ModelContainerRef.current, { y: 0, x: 0, height: '550px' });
-  
-    // First animation timeline
-    const firstTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: IntroDivRef.current,
-        start: "top+=90 top",
-        end: "bottom+=260 top",
-        scrub: true,
-        onEnter: () => secondScrollTrigger.disable(), // Disable second ScrollTrigger during the first animation
-        onLeave: () => secondScrollTrigger.enable(),  // Enable second ScrollTrigger after the first animation completes
-        onEnterBack: () => secondScrollTrigger.disable(), // Handle reverse scrolling
-        onLeaveBack: () => secondScrollTrigger.enable(),
-      },
-    });
-  
-    firstTimeline.fromTo(
+    gsap.fromTo(
+      //Model current state
       ModelContainerRef.current,
+      //Initial state of the element we are changing
       { y: 0, x: 0, height: '550px' },
-      { y: 900, x: -800, height: '640px', ease: "none" }
+      {
+        y: 900,
+        x: -800,
+        height: '640px',
+        ease: "none",
+        scrollTrigger: {
+          //Triggering animation based on viewport position with reference to intro div
+          trigger: IntroDivRef.current,
+          start: "top+=90 top",
+          end: "bottom+=260 top",
+          scrub: true,
+        },
+      }
     );
-  
-    // Second animation timeline
-    const secondTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: AboutMeRef.current,
-        start: "top+=90 top",
-        end: "bottom+=60 top",
-        scrub: true,
-        markers: true,
-      },
-    });
-  
-    secondTimeline.fromTo(
-      ModelContainerRef.current,
-      { y: 900, x: -800, height: '640px' },
-      { x: -100, y: 1700, height: '100px', ease: 'none' }
-    );
-  
-    // Store the second ScrollTrigger instance for control
-    const secondScrollTrigger = secondTimeline.scrollTrigger;
-  
+    if (!controls){
+      gsap.fromTo(
+        ModelContainerRef.current,
+        { y:900, x:-800, height: '640px'},
+        {
+          x:-100,
+          y:1700,
+          height: '100px',
+          ease: 'none',
+          scrollTrigger:{
+            trigger: AboutMeRef.current,
+            start: "top+=90 top",
+            end: "bottom+=60 top",
+            scrub: true,
+            markers: true,
+            immediateRender: false
+          }       
+        }
+      )
+
+    }
     // Cleanup function to remove ScrollTrigger instances
     return () => {
-      firstTimeline.scrollTrigger.kill();
-      secondScrollTrigger.kill();
+      ScrollTrigger.getById(ModelContainerRef.current)?.kill();
     };
-  }, []);
-  
-
-  // useEffect(() => {
-  //   gsap.fromTo(
-  //     //Model current state
-  //     ModelContainerRef.current,
-  //     //Initial state of the element we are changing
-  //     { y: 0, x: 0, height: '550px' },
-  //     {
-  //       y: 900,
-  //       x: -800,
-  //       height: '640px',
-  //       ease: "none",
-  //       scrollTrigger: {
-  //         //Triggering animation based on viewport position with reference to intro div
-  //         trigger: IntroDivRef.current,
-  //         start: "top+=90 top",
-  //         end: "bottom+=260 top",
-  //         scrub: true,
-  //       },
-  //     }
-  //   );
-
-  //   gsap.fromTo(
-  //     ModelContainerRef.current,
-  //     { y:900, x:-800, height: '640px'},
-  //     {
-  //       x:-100,
-  //       y:1700,
-  //       height: '100px',
-  //       ease: 'none',
-  //       scrollTrigger:{
-  //         trigger: AboutMeRef.current,
-  //         start: "top+=90 top",
-  //         end: "bottom+=60 top",
-  //         scrub: true,
-  //         markers: true
-  //       }       
-  //     }
-  //   )
-
-  //   // // Cleanup function to remove ScrollTrigger instances
-  //   // return () => {
-  //   //   ScrollTrigger.getById(ModelContainerRef.current)?.kill();
-  //   // };
-  // }, []);
+  }, [controls]);
 
   const scrollToAboutMe = () => {
     scroller.scrollTo('AboutMeContainer', {
