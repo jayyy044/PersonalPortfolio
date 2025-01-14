@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger,...props}) => {
+const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigger,...props}) => {
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
@@ -76,32 +76,35 @@ const MeshGlobe = ({onAboutMeClick, introDivScrollTrigger,...props}) => {
         },
       });
     })
-    // //Changing the size of the base
-    // gsap.to(BaseRef.current.scale,{
-    //   x: 0,
-    //   y: 0,
-    //   z: 0,
-    //   ease: 'none',
-    //   scrollTrigger: {
-    //     trigger: ScrollTrigger.current, 
-    //     start: 'top+=50 top',  // Start when scroll reaches this position
-    //     end: 'bottom+=200 top',  // End at this position
-    //     scrub: true,  
-    //   },
-    // })
 
-    gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-      x:1.43,
-      y:1.43,
-      z:1.43,
+    // //Changing the size of the base
+    gsap.to(BaseRef.current.scale,{
+      x: 0,
+      y: 0,
+      z: 0,
       ease: 'none',
       scrollTrigger: {
         trigger: introDivScrollTrigger.current, 
         start: 'top+=50 top',  // Start when scroll reaches this position
-        end: 'bottom+=200 top',  // End at this position
+        end: 'bottom+=120 top',  // End at this position
         scrub: true,  
+        markers: true
       },
-    });
+    })
+
+    // gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
+    //   x:0,
+    //   y:0,
+    //   z:0,
+    //   ease: 'none',
+    //   scrollTrigger: {
+    //     trigger: aboutMeDivScrollTrigger.current, 
+    //     start: 'top+=50 top',  // Start when scroll reaches this position
+    //     end: 'bottom+=50 top',  // End at this position
+    //     scrub: true,  
+    //     markers: true
+    //   },
+    // });
 
     // Cleanup function for ScrollTrigger when component unmounts
     return () => {

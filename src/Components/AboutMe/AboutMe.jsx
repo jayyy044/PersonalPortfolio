@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import ProfilePic from '../../assets/Profile.png'
 import Unavailable from '../../assets/UnavailableProfilePic.png'
-import { motion} from "motion/react"
+import {motion} from "motion/react"
 import './AboutMe.css'
 
 const AboutMe = forwardRef((props, ref) => {
