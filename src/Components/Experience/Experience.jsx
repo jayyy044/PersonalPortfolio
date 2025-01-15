@@ -20,10 +20,12 @@ const Experience = () => {
       >
         Experience
       </motion.h1>
-      {/* <motion.section className='tooltip'>
-        <h1>Hello</h1>
+      <motion.section className='tooltip'>
+        <p className='ExperienceTitle'>System Proces Analyst Co-op</p>
+        <p className='ExperienceCompany'>CIBC | Toronto, ON | Jan 2025 - Present</p>
+        <p>Developed and implemented process improvements to increase efficiency and productivity.</p>
         <div class="tooltip-notch"></div>
-      </motion.section> */}
+      </motion.section>
     </main>
   )
 }

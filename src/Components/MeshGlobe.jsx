@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useLayoutEffect } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-const MeshGlobe = ({ opacityControl, onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigger,...props}) => {
+const MeshGlobe = ({ onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrigger,...props}) => {
   const { nodes, materials, animations } = useGLTF('/src/assets/Models/MeshGlobe.glb') // Corrected path
   const navigate = useNavigate()
   const [rotationEnabled, setRotationEnabled] = useState(false)
@@ -29,128 +29,101 @@ const MeshGlobe = ({ opacityControl, onAboutMeClick, introDivScrollTrigger, abou
   materials['neoner_light.010'].color.set('#197998')
   materials['neoner_light.010'].emissive.set('#197998')
 
-  //Allowing the change of opacity of the models materials
-  // const materialKeys = ['neoner_light.008','neoner_light.013']
-  // materialKeys.forEach(mat => {
-  //     materials[mat].transparent = true;
-  //     materials[mat].opacity = 1;
-  // })
-
-  useEffect(() => {
-    //Scale Animation for Spheres
+  useLayoutEffect(() => {
+    // Set initial states for materials
+    gsap.set([materials['neoner_light.008'], materials['neoner_light.013']], {
+      transparent: true,
+      opacity: 1,
+    });
+  
+    // Scale Animation for Spheres
     gsap.to([OuterSphere.current.scale, InnerSphere.current.scale], {
-      x:1.43,
-      y:1.43,
-      z:1.43,
+      x: 1.43,
+      y: 1.43,
+      z: 1.43,
       ease: 'none',
       scrollTrigger: {
-        trigger: introDivScrollTrigger.current, 
-        start: "top+=90 top",
-        end: "bottom+=260 top",
-        scrub: true, // Sync with scroll
+        trigger: introDivScrollTrigger.current,
+        start: 'top+=90 top',
+        end: 'bottom+=260 top',
+        scrub: true,
       },
     });
-
-    //Position Animation for model(Spheres)
+  
+    // Position Animation for Model
     gsap.to(ModelRef.current.position, {
-      y:-27,
+      y: -27,
       ease: 'none',
       scrollTrigger: {
-        trigger: introDivScrollTrigger.current, 
-        start: "top+=90 top",
-        end: "bottom+=260 top",
-        scrub: true, // Sync with scroll
+        trigger: introDivScrollTrigger.current,
+        start: 'top+=90 top',
+        end: 'bottom+=260 top',
+        scrub: true,
       },
-    })
-
-    //Changing Opacity of spheres
-
-
-    // //Changing the size of the base
-    gsap.to(BaseRef.current.scale,{
+    });
+  
+    // Scale Animation for Base
+    gsap.to(BaseRef.current.scale, {
       x: 0,
       y: 0,
       z: 0,
       ease: 'none',
       scrollTrigger: {
-        trigger: introDivScrollTrigger.current, 
-        start: 'top+=50 top',  // Start when scroll reaches this position
-        end: 'bottom+=120 top',  // End at this position
-        scrub: true,  
+        trigger: introDivScrollTrigger.current,
+        start: 'top+=50 top',
+        end: 'bottom+=120 top',
+        scrub: true,
       },
-    })
-    gsap.set([materials['neoner_light.008'], materials['neoner_light.013']], { transparent: true, opacity: 1 });
-    gsap.timeline({
+    });
+  
+    // Opacity Animation: 1 -> 0.09
+    const timeline1 = gsap.timeline({
       scrollTrigger: {
         trigger: introDivScrollTrigger.current,
-        start: 'top+=90 top',  // Start when scroll reaches this position
-        end: 'bottom+=260 top',  // End at this position
+        start: 'top+=90 top',
+        end: 'bottom+=260 top',
         scrub: true,
-        markers: true
-      }
-    })
-    .to([materials['neoner_light.008'],materials['neoner_light.013']], {
-      opacity: 0.09,
-      ease: 'none'
-    });
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: aboutMeDivScrollTrigger.current, 
-        start: "top+=90 top",
-        end: "bottom-=150 top",  // End at this position
-        scrub: true,  
-        markers: true
       },
-    })
-    .to([materials['neoner_light.008'],materials['neoner_light.013']], {
-      opacity: 1,
-      ease: 'none'
     });
 
-    // materialKeys.forEach(mat => {
-    //   gsap.to(materials[mat], {
-    //     opacity: 0.09,
-    //     ease: 'none',  
-    //     scrollTrigger: {
-    //       trigger: introDivScrollTrigger.current, 
-    //       start: 'top+=90 top',  // Start when scroll reaches this position
-    //       end: 'bottom+=260 top',  // End at this position
-    //       scrub: true,  
-    //     },
-    //   });
-    // })
+    timeline1.to([materials['neoner_light.008'], materials['neoner_light.013']], {
+      opacity: 0.09,
+      ease: 'none',
+    });
+  
+    // Opacity Animation: 0.09 -> 1
+    const timeline2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: aboutMeDivScrollTrigger.current,
+        start: 'top+=90 top',
+        end: 'bottom-=150 top',
+        scrub: true,
+      },
+    });
 
-    // materialKeys.forEach(mat => {
-    //   gsap.to(materials[mat], {
-    //     opacity: 0.5,
-    //     ease: 'none',  
-    //     scrollTrigger: {
-    //       trigger: aboutMeDivScrollTrigger.current, 
-    //       start: "top+=90 top",
-    //       end: "bottom-=150 top",  // End at this position
-    //       scrub: true,  
-    //       markers: true
-    //     },
-    //   });
-    // })
-    
-
-
-    // Cleanup function for ScrollTrigger when component unmounts
+    timeline2.to([materials['neoner_light.008'], materials['neoner_light.013']], {
+      opacity: 0.7,
+      ease: 'none',
+    });
+  
+    // Cleanup on component unmount
     return () => {
       gsap.killTweensOf([
-        OuterSphere.current.scale, 
-        InnerSphere.current.scale, 
-        ModelRef.current.position
+        OuterSphere.current.scale,
+        InnerSphere.current.scale,
+        ModelRef.current.position,
+        BaseRef.current.scale,
       ]);
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
+  
 
   useEffect(() => {
     setTimeout(() => {
       setRotationEnabled(true)
     }, 500)
-  }, [opacityControl])
+  }, [])
 
   useFrame(() => {
     if (rotationEnabled) {

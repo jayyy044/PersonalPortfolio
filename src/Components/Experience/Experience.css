@@ -1,6 +1,6 @@
 .ExperienceContainer{
     color: white;
-    /* border: 1px solid red; */
+    border: 1px solid red;
     margin-top: 100px;
     display: flex;
     padding-inline: 20px;
@@ -10,25 +10,30 @@
 
 .ExperienceContainer h1{
     margin-inline: auto;
-    /* margin-right: 50px; */
     font-size: 6.5rem;
     color: var(--AccentColor);
-    font-weight: 400;
-
+    font-weight: 450;
+    margin-bottom: 60px;
 }
 
 .tooltip {
-    position: fixed;
-    padding: 20px;
-    background-color: #333;
+    position: relative;
+    background: rgba( 255, 255, 255, 0.08 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 1.5px );
+    -webkit-backdrop-filter: blur( 1.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    margin-left: auto;
+    padding: 25px;
     color: #fff;
     border-radius: 8px;
-    width: 1000px;
-    height: 500px;
+    width: 900px;
+    /* height: 500px; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    top: 58%;
-    left: 62%;
-    transform: translate(-50%, -50%);
+    /* top: 58%;
+    left: 62%; */
+    /* transform: translate(-50%, -50%); */
   }
   
   .tooltip-notch {
@@ -40,5 +45,20 @@
     top: 32%;
     transform: translateY(-50%);
     border-width: 50px 45px 50px 0;
-    border-color: transparent #333 transparent transparent;
+    border-color: transparent #232323 transparent transparent;
   }
+
+.ExperienceTitle{
+    color: var(--AccentColor);
+    font-size: 3.5rem;
+}
+.ExperienceCompany{
+    font-size: 2rem;
+    color:rgb(149, 194, 209);
+}
+
+.tooltip p:nth-child(3){
+    font-size: 1.5rem;
+    padding: 10px;
+    margin-top: 30px;
+}

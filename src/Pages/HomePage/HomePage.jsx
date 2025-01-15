@@ -59,10 +59,10 @@ const HomePage = () => {
         ModelContainerRef.current,
         { y:900, x:-800, height: '640px'},
         {
-          x:-550,
+          x:-500,
           y:1400,
           opacity: 1,
-          height: '310px',
+          height: '360px',
           ease: 'none',
           scrollTrigger:{
             trigger: AboutMeRef.current,
