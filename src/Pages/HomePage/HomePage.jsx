@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import MeshGlobe from '../../Components/MeshGlobe.jsx'
 import CanvasLoader from '../../Components/CanvasLoader.jsx'
-import React, {Suspense, useRef, useState, useEffect} from 'react'
+import React, {Suspense, useRef, useState, useEffect, useLayoutEffect} from 'react'
 // import ProfilePic from '../../assets/Profile.png'
 import { useScroll } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
@@ -33,6 +33,57 @@ const HomePage = () => {
       setControls(true)
     }
   });
+  
+  useLayoutEffect(() => {
+    gsap.set(
+      //The models current state
+      ModelContainerRef.current, 
+      //Initial state of the model
+      { y: 0, x: 0, height: '550px'}
+    )
+    const IntroToAboutAnimation = gsap.timeline({
+      scrollTrigger: {
+        //Triggering animation based on viewport position with reference to intro div
+        trigger: IntroDivRef.current,
+        start: "top+=90 top",
+        end: "bottom+=260 top",
+        scrub: true,
+      },
+    })
+
+    IntroToAboutAnimation.to(ModelContainerRef.current,{
+      y: 900,
+      x: -800,
+      height: '640px',
+      ease: "none",
+    })
+
+    gsap.set(
+      //The models current state
+      ModelContainerRef.current, 
+      //Initial state of the model
+      { y: 900, x: -800, height: '640px'}
+    )
+
+    const AboutToExperienceAnimation = gsap.timeline({
+      scrollTrigger:{
+        trigger: AboutMeRef.current,
+        start: "top+=90 top",
+        end: "bottom-=150 top",
+        scrub: true,
+        immediateRender: false
+      } 
+    })
+
+    AboutToExperienceAnimation.to(ModelContainerRef.current,{
+      x:-500,
+      y:1400,
+      opacity: 1,
+      height: '360px',
+      ease: 'none',
+    })
+
+  }, []);
 
   useEffect(() => {
     gsap.fromTo(
