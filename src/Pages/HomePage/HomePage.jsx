@@ -9,12 +9,13 @@ import { useScroll } from "motion/react"
 import { useMotionValueEvent } from 'motion/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import MotionPathPlugin from 'gsap/MotionPathPlugin'
 import AboutMe from '../../Components/AboutMe/AboutMe.jsx'
 import Experience from '../../Components/Experience/Experience.jsx'
 import { scroller } from 'react-scroll';
 
-// Register the ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+// Register the plugin
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 const HomePage = () => {
   const { scrollYProgress } = useScroll();
@@ -24,6 +25,7 @@ const HomePage = () => {
   const ModelContainerRef = useRef()
   const IntroDivRef = useRef()
   const AboutMeRef = useRef(null)
+  const ExperienceRef = useRef(null)
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (latest > 0.2) {
@@ -33,14 +35,18 @@ const HomePage = () => {
       setControls(true)
     }
   });
-  
-  useLayoutEffect(() => {
+
+  useEffect(() => {
     gsap.set(
       //The models current state
       ModelContainerRef.current, 
       //Initial state of the model
       { y: 0, x: 0, height: '550px'}
     )
+
+  })
+  
+  useLayoutEffect(() => {
     const IntroToAboutAnimation = gsap.timeline({
       scrollTrigger: {
         //Triggering animation based on viewport position with reference to intro div
@@ -58,79 +64,22 @@ const HomePage = () => {
       ease: "none",
     })
 
-    gsap.set(
-      //The models current state
-      ModelContainerRef.current, 
-      //Initial state of the model
-      { y: 900, x: -800, height: '640px'}
-    )
-
     const AboutToExperienceAnimation = gsap.timeline({
       scrollTrigger:{
         trigger: AboutMeRef.current,
         start: "top+=90 top",
-        end: "bottom-=150 top",
+        end: "bottom-=170 top",
         scrub: true,
-        immediateRender: false
+        // immediateRender: false
       } 
     })
 
-    AboutToExperienceAnimation.to(ModelContainerRef.current,{
-      x:-500,
-      y:1400,
-      opacity: 1,
-      height: '360px',
-      ease: 'none',
-    })
+    AboutToExperienceAnimation.fromTo(ModelContainerRef.current,
+      {x: -800, y: 900, height: '640px'},
+      {x:-500, y:1400, height: '360px',  ease: 'none'}
+    )
 
   }, []);
-
-  useEffect(() => {
-    gsap.fromTo(
-      //Model current state
-      ModelContainerRef.current,
-      //Initial state of the element we are changing
-      { y: 0, x: 0, height: '550px' },
-      {
-        y: 900,
-        x: -800,
-        height: '640px',
-        ease: "none",
-        scrollTrigger: {
-          //Triggering animation based on viewport position with reference to intro div
-          trigger: IntroDivRef.current,
-          start: "top+=90 top",
-          end: "bottom+=260 top",
-          scrub: true,
-        },
-      }
-    );
-    if (!controls){
-      gsap.fromTo(
-        ModelContainerRef.current,
-        { y:900, x:-800, height: '640px'},
-        {
-          x:-500,
-          y:1400,
-          opacity: 1,
-          height: '360px',
-          ease: 'none',
-          scrollTrigger:{
-            trigger: AboutMeRef.current,
-            start: "top+=90 top",
-            end: "bottom-=150 top",
-            scrub: true,
-            immediateRender: false
-          }       
-        }
-      )
-
-    }
-    // Cleanup function to remove ScrollTrigger instances
-    return () => {
-      ScrollTrigger.getById(ModelContainerRef.current)?.kill();
-    };
-  }, [controls]);
 
   const scrollToAboutMe = () => {
     scroller.scrollTo('AboutMeContainer', {
@@ -220,7 +169,7 @@ const HomePage = () => {
           </div>       
       </div>
       <AboutMe ref={AboutMeRef}/>
-      <Experience/>
+      <Experience ref={ModelContainerRef}/>
     </main> 
   )
 }

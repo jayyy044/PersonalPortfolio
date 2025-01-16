@@ -4,7 +4,7 @@
     margin-top: 100px;
     display: flex;
     padding-inline: 20px;
-    height: 800px;
+    height: 2500px;
     flex-direction: column;
 }
 
@@ -24,16 +24,12 @@
     -webkit-backdrop-filter: blur( 1.5px );
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
-    margin-left: auto;
     padding: 25px;
     color: #fff;
     border-radius: 8px;
     width: 900px;
-    /* height: 500px; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* top: 58%;
-    left: 62%; */
-    /* transform: translate(-50%, -50%); */
+
   }
   
   .tooltip-notch {
@@ -41,10 +37,9 @@
     width: 0;
     height: 0;
     border-style: solid;
-    left: -43px;
+    /* left: -43px; */
     top: 32%;
     transform: translateY(-50%);
-    border-width: 50px 45px 50px 0;
     border-color: transparent #232323 transparent transparent;
   }
 
