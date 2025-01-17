@@ -1,3 +1,43 @@
-.experienceCardContainer{
-    
+.experienceCardContainer {
+    position: relative;
+    background: rgba( 255, 255, 255, 0.08 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 1.5px );
+    -webkit-backdrop-filter: blur( 1.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    padding: 25px;
+    color: #fff;
+    border-radius: 8px;
+    width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  }
+
+.tooltip-notch {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    left: -4.7%;
+    top: 12%;
+    border-width: 50px 45px 50px 0;
+    border-color: transparent rgba(170, 170, 170, 0.18) transparent transparent;
+  }
+
+.ExperienceTitle{
+    color: var(--AccentColor);
+    font-size: 3.5rem;
+}
+.ExperienceCompany{
+    font-size: 2rem;
+    color:rgb(149, 194, 209);
+    margin-bottom: 15px;
+}
+
+.ExperienceDescription{
+    font-size: 1.5rem;
+    padding: 10px;
+    line-height: 2.1rem;
+    /* margin-top: 30px; */
 }

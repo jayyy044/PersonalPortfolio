@@ -44,7 +44,7 @@ const HomePage = () => {
       { y: 0, x: 0, height: '550px'}
     )
 
-  })
+  }, [])
   
   useLayoutEffect(() => {
     const IntroToAboutAnimation = gsap.timeline({

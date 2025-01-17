@@ -1,10 +1,9 @@
 .ExperienceContainer{
     color: white;
-    border: 1px solid red;
     margin-top: 100px;
     display: flex;
     padding-inline: 20px;
-    height: 2500px;
+    /* height: 3000px; */
     flex-direction: column;
 }
 
@@ -15,45 +14,26 @@
     font-weight: 450;
     margin-bottom: 60px;
 }
-
-.tooltip {
-    position: relative;
-    background: rgba( 255, 255, 255, 0.08 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 1.5px );
-    -webkit-backdrop-filter: blur( 1.5px );
-    border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
-    padding: 25px;
-    color: #fff;
-    border-radius: 8px;
-    width: 900px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
-  }
-  
-  .tooltip-notch {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    /* left: -43px; */
-    top: 32%;
-    transform: translateY(-50%);
-    border-color: transparent #232323 transparent transparent;
-  }
-
-.ExperienceTitle{
-    color: var(--AccentColor);
-    font-size: 3.5rem;
-}
-.ExperienceCompany{
-    font-size: 2rem;
-    color:rgb(149, 194, 209);
+.BackToTop{
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 2.7rem;
+    margin-top: 55px;
+    line-height:6rem;
 }
 
-.tooltip p:nth-child(3){
-    font-size: 1.5rem;
-    padding: 10px;
-    margin-top: 30px;
+.arrowIcon{
+    animation: moveUpDown 2s ease-in-out infinite;
+}
+
+@keyframes moveUpDown {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
 }
