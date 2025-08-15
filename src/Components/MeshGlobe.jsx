@@ -26,8 +26,12 @@ const MeshGlobe = ({ onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrig
   //Changing Material Colors 
   materials['neoner_light.013'].color.set('#ffffff')
   materials['neoner_light.013'].emissive.set('#ffffff')
-  materials['neoner_light.010'].color.set('#197998')
-  materials['neoner_light.010'].emissive.set('#197998')
+  materials['neoner_light.010'].color.set('#ffffff') // Changed button to white
+  materials['neoner_light.010'].emissive.set('#ffffff') // Changed button emissive to white
+  
+  // Change base materials to silver
+  materials['neoner_wall.004'].color.set('#c0c0c0') // Silver color for base
+  materials['Material.001'].color.set('#e8e8e8') // Light silver for base details
 
   useLayoutEffect(() => {
     // Set initial states for materials
@@ -127,7 +131,9 @@ const MeshGlobe = ({ onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrig
 
   useFrame(() => {
     if (rotationEnabled) {
-      ModelRef.current.rotation.y += 0.005
+      // ModelRef.current.rotation.y += 0.005
+      ModelRef.current.rotation.y += 0.000000000001
+
     }
   })
 
@@ -267,9 +273,3 @@ const MeshGlobe = ({ onAboutMeClick, introDivScrollTrigger, aboutMeDivScrollTrig
 
 useGLTF.preload('/src/assets/Models/MeshGlobe.glb') // Corrected path
 export default MeshGlobe
-
-
-
-
-
-

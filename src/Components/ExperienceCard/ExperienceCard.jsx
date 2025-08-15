@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import { motion } from 'motion/react';
 import './ExperienceCard.css'
-import { element } from 'three/tsl';
 
 const ExperienceCard = forwardRef((props, ref) => {
   const {fadeindirec, title, timeline, description, amount, mt} = props

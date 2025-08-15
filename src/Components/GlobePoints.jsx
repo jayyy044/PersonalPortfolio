@@ -26,7 +26,7 @@ const GlobePoints = ({ ScrollTrigger, position}) => {
         ref={meshRef}
       >
         <sphereGeometry args={[0.2, 32, 32]} />
-        <meshStandardMaterial color= 'red' transparent={true} opacity={1} />
+        <meshStandardMaterial color= 'red' transparent={true} opacity={0} />
       </mesh>
     </>
   )

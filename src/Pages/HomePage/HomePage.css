@@ -9,6 +9,11 @@
     flex-direction: column;
     align-items: center;
     height: calc(100dvh - 105.5px); 
+    /* width: 93rem; */
+    width: 100%;
+    /* box-shadow: inset 0px 0px 0px 10px blue; */
+
+    /* border: 0.2px solid white; */
     background-image: radial-gradient(circle 800px at 50% 55%, #7d7d7d, rgb(9, 9, 9),rgb(7, 7, 7),rgb(5, 5, 5));
 }
 .IntroContainer{
@@ -20,13 +25,13 @@
     justify-content: center;
 }
 .IntroContainer h1{
-    font-size: 3.5rem;
+    font-size: clamp(3.3rem, 2.795rem + 0.734vw, 3.5rem);
     color: rgb(220, 220, 220);
     margin-top: 25px;
 }
 
 .IntroContainer h3{
-    font-size: 2.5rem;
+    font-size: clamp(2.3rem, 1.795rem + 0.734vw, 2.5rem);
     color:rgb(220, 220, 220);
     margin-top: 20px;
 }

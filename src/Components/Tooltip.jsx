@@ -95,7 +95,7 @@ const Tooltip = ({
                 position={cardPosition}
                 rotation={cardRotation}
                 ScrollTrigger={ScrollTrigger}
-                color={isHovered ? 'black' : 'white'} // Change color on hover
+                color={isHovered ? 'black' : '#1a72a7'} // Neon blue resting color, black on hover
             />
             <Text3D
                 font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
@@ -111,7 +111,8 @@ const Tooltip = ({
                 rotation={tooltipRotation1}
                 ref={textRef}
             >
-                {tooltipText}
+                {/* {tooltipText} */}
+                {" "}
                 <meshStandardMaterial                     
                     color="rgb(26, 114, 143)"
                     emissive="rgb(32, 143, 180)"
